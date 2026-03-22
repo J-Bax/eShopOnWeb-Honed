@@ -260,3 +260,27 @@ pub/
 .devcontainer
 
 .azure
+
+# ── Hone Optimization Results ────────────────────────────────────
+# Commit analysis artifacts (compact, useful for PR reviews).
+# Ignore raw profiling data (large, transient).
+
+results/*
+!results/.gitkeep
+!results/baseline.json
+!results/baseline-*.json
+!results/run-metadata.json
+!results/hone.jsonl
+!results/metadata/
+
+# Experiment directories: commit structure, ignore raw data
+!results/experiment-*/
+results/experiment-*/*.log
+results/experiment-*/*.trx
+results/experiment-*/diagnostics/perfview-cpu/
+results/experiment-*/diagnostics/perfview/
+results/experiment-*/diagnostics/perfview-gc/*
+!results/experiment-*/diagnostics/perfview-gc/gc-report.json
+results/experiment-*/diagnostics/dotnet-counters/*
+!results/experiment-*/diagnostics/dotnet-counters/dotnet-counters.json
+results/experiment-*/diagnostics/k6-*.json

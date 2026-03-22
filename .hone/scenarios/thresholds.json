@@ -1,0 +1,13 @@
+{
+    "scenarios": {
+        "baseline": {
+            "description": "Steady-state: 50 VUs for 30s across catalog endpoints",
+            "file": ".hone/scenarios/baseline.js",
+            "use_for_optimization": true,
+            "thresholds": {
+                "http_req_duration_p95_ms": 500,
+                "http_req_failed_rate": 0.01
+            }
+        }
+    }
+}
