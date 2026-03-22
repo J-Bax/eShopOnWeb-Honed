@@ -71,7 +71,7 @@ export default function (data) {
     const typesResponse = http.get(`${BASE_URL}/api/catalog-types`, readHeaders);
     check(typesResponse, { 'types 200': (r) => r.status === 200 });
 
-    // ── Write operations (30% of traffic weight via 2 requests) ─────────
+    // ── Write operations (idempotent — safe across multiple measured runs) ──
 
     // Update an existing item (PUT)
     const updateId = seededId(3, 12);
@@ -86,17 +86,18 @@ export default function (data) {
     const updateResponse = http.put(`${BASE_URL}/api/catalog-items`, updatePayload, authHeaders);
     check(updateResponse, { 'update 200': (r) => r.status === 200 });
 
-    // Create a new item (POST) — use deterministic unique name
-    const createName = `k6-item-${__VU}-${__ITER}`;
-    const createPayload = JSON.stringify({
-        catalogBrandId: seededId(7, 5),
-        catalogTypeId: seededId(8, 4),
-        description: `Load test item from VU${__VU}`,
-        name: createName,
-        price: 5 + (seededId(9, 95)),
+    // Update a second item (PUT) — more write coverage without accumulation
+    const updateId2 = seededId(7, 12);
+    const updatePayload2 = JSON.stringify({
+        id: updateId2,
+        catalogBrandId: seededId(8, 5),
+        catalogTypeId: seededId(9, 4),
+        description: `Updated2 by k6 VU${__VU} iter${__ITER}`,
+        name: `.NET Foundation Sweatshirt`,
+        price: 5 + (seededId(10, 95)),
     });
-    const createResponse = http.post(`${BASE_URL}/api/catalog-items`, createPayload, authHeaders);
-    check(createResponse, { 'create 201': (r) => r.status === 201 });
+    const updateResponse2 = http.put(`${BASE_URL}/api/catalog-items`, updatePayload2, authHeaders);
+    check(updateResponse2, { 'update2 200': (r) => r.status === 200 });
 
     sleep(0.5);
 }
