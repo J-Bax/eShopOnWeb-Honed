@@ -4,6 +4,7 @@ using System.Text;
 using BlazorShared;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.eShopWeb;
 using Microsoft.eShopWeb.ApplicationCore.Constants;
@@ -174,6 +175,16 @@ app.UseSwaggerUI(c =>
 
 app.MapControllers();
 app.MapEndpoints();
+
+app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
+
+app.MapPost("/diag/gc", () =>
+{
+    GC.Collect(2, GCCollectionMode.Forced, blocking: true);
+    GC.WaitForPendingFinalizers();
+    GC.Collect(2, GCCollectionMode.Forced, blocking: true);
+    return Results.Ok(new { collected = true, totalMemoryMB = Math.Round(GC.GetTotalMemory(false) / 1048576.0, 2) });
+});
 
 app.Logger.LogInformation("LAUNCHING PublicApi");
 app.Run();
