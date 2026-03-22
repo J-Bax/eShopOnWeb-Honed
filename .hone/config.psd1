@@ -7,7 +7,7 @@
     Api = @{
         SolutionPath     = 'eShopOnWeb.sln'
         ProjectPath      = 'src\PublicApi'
-        TestProjectPath  = 'tests\FunctionalTests'
+        TestProjectPath  = 'tests\PublicApiIntegrationTests'
         ResultsPath      = 'results'
         MetadataPath     = 'results\metadata'
         BaseUrl          = 'http://localhost:0'
@@ -39,7 +39,8 @@
     ScaleTest = @{
         ScenarioPath         = '.hone\scenarios\baseline.js'
         ScenarioRegistryPath = '.hone\scenarios\thresholds.json'
-        WarmupEnabled        = $false
+        WarmupEnabled        = $true
+        WarmupScenarioPath   = '.hone\scenarios\warmup.js'
         MeasuredRuns         = 5
         CooldownSeconds      = 5
     }

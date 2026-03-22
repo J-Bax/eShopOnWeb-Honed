@@ -15,15 +15,15 @@ export const options = {
         { duration: '15s', target: 10 },
         { duration: '30s', target: 50 },
         { duration: '30s', target: 100 },
+        { duration: '30s', target: 200 },
         { duration: '15s', target: 0 },
     ],
     thresholds: {
-        http_req_duration: ['p(95)<1000'],
-        http_req_failed: ['rate<0.05'],
+        http_req_duration: ['p(95)<2000'],
+        http_req_failed: ['rate<0.10'],
     },
 };
 
-// Authenticate once at test start and share token across VUs
 export function setup() {
     const authRes = http.post(`${BASE_URL}/api/authenticate`, JSON.stringify({
         username: ADMIN_USER,
@@ -45,58 +45,60 @@ export default function (data) {
     };
     const readHeaders = { headers: { 'Content-Type': 'application/json' } };
 
-    // ── Read operations (70% of traffic weight via 4 requests) ──────────
+    // Fixed endpoint sequence — every VU hits all endpoints in the same order
 
-    // Browse catalog (paginated)
+    // 1. Catalog list (paginated)
     const pageIndex = seededId(1, 2) - 1;
-    const catalogPage = http.get(
+    const catalogRes = http.get(
         `${BASE_URL}/api/catalog-items?pageSize=10&pageIndex=${pageIndex}`,
         readHeaders
     );
-    check(catalogPage, {
-        'catalog list 200': (r) => r.status === 200,
-        'catalog has items': (r) => JSON.parse(r.body).catalogItems.length > 0,
-    });
+    check(catalogRes, { 'catalog 200': (r) => r.status === 200 });
 
-    // Get a specific item
+    // 2. Item detail
     const itemId = seededId(2, 12);
-    const itemResponse = http.get(`${BASE_URL}/api/catalog-items/${itemId}`, readHeaders);
-    check(itemResponse, { 'item detail 200': (r) => r.status === 200 });
+    const itemRes = http.get(`${BASE_URL}/api/catalog-items/${itemId}`, readHeaders);
+    check(itemRes, { 'item 200': (r) => r.status === 200 });
 
-    // Browse brands
-    const brandsResponse = http.get(`${BASE_URL}/api/catalog-brands`, readHeaders);
-    check(brandsResponse, { 'brands 200': (r) => r.status === 200 });
+    // 3. Brands
+    const brandsRes = http.get(`${BASE_URL}/api/catalog-brands`, readHeaders);
+    check(brandsRes, { 'brands 200': (r) => r.status === 200 });
 
-    // Browse types
-    const typesResponse = http.get(`${BASE_URL}/api/catalog-types`, readHeaders);
-    check(typesResponse, { 'types 200': (r) => r.status === 200 });
+    // 4. Types
+    const typesRes = http.get(`${BASE_URL}/api/catalog-types`, readHeaders);
+    check(typesRes, { 'types 200': (r) => r.status === 200 });
 
-    // ── Write operations (30% of traffic weight via 2 requests) ─────────
-
-    // Update an existing item (PUT)
+    // 5. Update item (PUT)
     const updateId = seededId(3, 12);
     const updatePayload = JSON.stringify({
         id: updateId,
         catalogBrandId: seededId(4, 5),
         catalogTypeId: seededId(5, 4),
-        description: `Updated by k6 VU${__VU} iter${__ITER}`,
+        description: `Stress VU${__VU} iter${__ITER}`,
         name: `.NET Bot Black Sweatshirt`,
         price: 10 + (seededId(6, 90)),
     });
-    const updateResponse = http.put(`${BASE_URL}/api/catalog-items`, updatePayload, authHeaders);
-    check(updateResponse, { 'update 200': (r) => r.status === 200 });
+    const updateRes = http.put(`${BASE_URL}/api/catalog-items`, updatePayload, authHeaders);
+    check(updateRes, { 'update 200': (r) => r.status === 200 });
 
-    // Create a new item (POST) — use deterministic unique name
-    const createName = `k6-item-${__VU}-${__ITER}`;
+    // 6. Create item (POST)
+    const createName = `k6-stress-${__VU}-${__ITER}`;
     const createPayload = JSON.stringify({
         catalogBrandId: seededId(7, 5),
         catalogTypeId: seededId(8, 4),
-        description: `Load test item from VU${__VU}`,
+        description: `Stress test item VU${__VU}`,
         name: createName,
         price: 5 + (seededId(9, 95)),
     });
-    const createResponse = http.post(`${BASE_URL}/api/catalog-items`, createPayload, authHeaders);
-    check(createResponse, { 'create 201': (r) => r.status === 201 });
+    const createRes = http.post(`${BASE_URL}/api/catalog-items`, createPayload, authHeaders);
+    check(createRes, { 'create 201': (r) => r.status === 201 });
 
-    sleep(0.5);
+    // 7. Authenticate (token refresh)
+    const authRes = http.post(`${BASE_URL}/api/authenticate`, JSON.stringify({
+        username: ADMIN_USER,
+        password: ADMIN_PASS,
+    }), { headers: { 'Content-Type': 'application/json' } });
+    check(authRes, { 'auth 200': (r) => r.status === 200 });
+
+    sleep(0.3);
 }

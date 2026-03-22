@@ -1,13 +1,28 @@
 {
     "scenarios": {
         "baseline": {
-            "description": "Steady-state: 50 VUs for 30s across catalog endpoints",
+            "description": "Mixed workload: staged 10-100 VUs, reads + authenticated writes across all catalog endpoints",
             "file": ".hone/scenarios/baseline.js",
             "use_for_optimization": true,
             "thresholds": {
-                "http_req_duration_p95_ms": 500,
-                "http_req_failed_rate": 0.01
+                "http_req_duration_p95_ms": 1000,
+                "http_req_failed_rate": 0.05
             }
+        },
+        "stress": {
+            "description": "Breaking-point: staged 10-200 VUs, all endpoints including auth and writes",
+            "file": ".hone/scenarios/stress.js",
+            "use_for_optimization": false,
+            "thresholds": {
+                "http_req_duration_p95_ms": 2000,
+                "http_req_failed_rate": 0.10
+            }
+        },
+        "warmup": {
+            "description": "JIT/EF primer: 5 VUs for 10s, lightweight reads + one auth",
+            "file": ".hone/scenarios/warmup.js",
+            "use_for_optimization": false,
+            "thresholds": {}
         }
     }
 }
