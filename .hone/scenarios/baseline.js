@@ -45,5 +45,9 @@ export default function () {
     const typesResponse = http.get(`${BASE_URL}/api/catalog-types`);
     check(typesResponse, { 'types 200': (r) => r.status === 200 });
 
+    // Health check (validates API liveness under load)
+    const healthResponse = http.get(`${BASE_URL}/health`);
+    check(healthResponse, { 'health 200': (r) => r.status === 200 });
+
     sleep(0.5);
 }
