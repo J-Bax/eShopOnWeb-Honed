@@ -68,7 +68,10 @@ try {
 
     # -- Parse connection strings --------------------------------------------------
     $appSettings = Get-Content $appSettingsPath -Raw | ConvertFrom-Json
-    $connectionNames = @('CatalogConnection', 'IdentityConnection')
+    # Only reset CatalogDb — Identity DB has static seed data (admin + demo
+    # users) and doesn't accumulate test data between runs. Dropping it would
+    # invalidate JWT tokens held by running k6 VUs.
+    $connectionNames = @('CatalogConnection')
 
     foreach ($connName in $connectionNames) {
         $connStr = $appSettings.ConnectionStrings.$connName
