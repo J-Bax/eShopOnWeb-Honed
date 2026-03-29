@@ -1,0 +1,39 @@
+{
+  "generatedByExperiment": 1,
+  "generatedAt": "2026-03-29T10:36:31.6909169-07:00",
+  "items": [
+    {
+      "id": 1,
+      "filePath": "src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs",
+      "title": "Remove artificial 1-second Task.Delay in catalog list endpoint",
+      "explanation": "Remove artificial 1-second Task.Delay in catalog list endpoint",
+      "scope": "narrow",
+      "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-1.md",
+      "status": "done",
+      "triedByExperiment": 1,
+      "outcome": "improved"
+    },
+    {
+      "id": 2,
+      "filePath": "src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs",
+      "title": "Eliminate redundant second DB write in create endpoint",
+      "explanation": "Eliminate redundant second DB write in create endpoint",
+      "scope": "narrow",
+      "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-2.md",
+      "status": "pending",
+      "triedByExperiment": null,
+      "outcome": null
+    },
+    {
+      "id": 3,
+      "filePath": "src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs",
+      "title": "Eliminate redundant COUNT query for catalog pagination",
+      "explanation": "Eliminate redundant COUNT query for catalog pagination",
+      "scope": "narrow",
+      "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-3.md",
+      "status": "pending",
+      "triedByExperiment": null,
+      "outcome": null
+    }
+  ]
+}

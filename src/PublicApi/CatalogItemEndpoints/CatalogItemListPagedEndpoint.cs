@@ -39,7 +39,6 @@ public class CatalogItemListPagedEndpoint : IEndpoint<IResult, ListPagedCatalogI
 
     public async Task<IResult> HandleAsync(ListPagedCatalogItemRequest request, IRepository<CatalogItem> itemRepository)
     {
-        await Task.Delay(1000);
         var response = new ListPagedCatalogItemResponse(request.CorrelationId());
 
         var filterSpec = new CatalogFilterSpecification(request.CatalogBrandId, request.CatalogTypeId);

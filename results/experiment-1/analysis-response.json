@@ -1,0 +1,43 @@
+{
+  "opportunities": [
+    {
+      "filePath": "src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs",
+      "title": "Remove artificial 1-second Task.Delay in catalog list endpoint",
+      "scope": "narrow",
+      "rootCause": "## Evidence\n\nAt `CatalogItemListPagedEndpoint.cs:42`, the handler begins with:\n\n```csharp\nawait Task.Delay(1000);\n```\n\nThis introduces a hard-coded 1-second delay on every request to `GET /api/catalog-items`. The current p95 latency is **1013.98ms**, which is almost exactly 1000ms + a small amount of actual DB/processing overhead (~14ms).\n\n## Theory\n\nThe `GET /api/catalog-items` endpoint is called once per k6 iteration (1 out of 7 requests, ~14.3% of total traffic). Since p95 means 5% of requests are slower than this value, and 14.3% of all requests hit this endpoint, the catalog-list requests fully populate the p95 tail. The 1-second `Task.Delay` is an artificial bottleneck that dominates the overall p95 latency. It also holds the thread/async context for 1 full second per request, reducing effective throughput under concurrent load—each in-flight request occupies server resources for 1 second longer than needed.\n\n## Proposed Fixes\n\n1. **Remove `Task.Delay(1000)`:** Delete line 42 (`await Task.Delay(1000);`) from `CatalogItemListPagedEndpoint.cs`. No other changes needed—the remaining logic (count query, paginated fetch, mapping) is the actual work.\n\n## Expected Impact\n\n- **p95 latency:** Expected to drop from ~1014ms to ~50-100ms (the actual DB query + mapping time), a reduction of ~900-960ms.\n- **RPS:** Should increase significantly since requests complete ~10x faster, freeing up server capacity.\n- **Error rate:** No change expected (already 0%).\n- Overall p95 improvement of ~90%+ since this endpoint sets the p95 ceiling.",
+      "impactEstimate": {
+        "trafficPct": 14.3,
+        "latencyReductionMs": 950,
+        "overallP95ImprovementPct": 90,
+        "confidence": "high",
+        "reasoning": "The p95 of 1013.98ms almost exactly matches the 1000ms Task.Delay plus minor overhead. Since 14.3% of traffic hits this endpoint (well above the 5% threshold for p95), removing the delay will shift the p95 to the next-slowest endpoint, likely in the 50-100ms range. This is a clear artificial bottleneck with certain impact."
+      }
+    },
+    {
+      "filePath": "src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs",
+      "title": "Eliminate redundant second DB write in create endpoint",
+      "scope": "narrow",
+      "rootCause": "## Evidence\n\nAt `CreateCatalogItemEndpoint.cs:50-60`, the create handler performs two sequential database writes:\n\n```csharp\nnewItem = await itemRepository.AddAsync(newItem);       // Line 51 — INSERT\n\nif (newItem.Id != 0)\n{\n    newItem.UpdatePictureUri(\"eCatalog-item-default.png\"); // Line 59\n    await itemRepository.UpdateAsync(newItem);              // Line 60 — UPDATE\n}\n```\n\nThe default picture URI is always set (the condition `newItem.Id != 0` is always true after a successful insert). This results in two DB round trips for every create request.\n\n## Theory\n\nEach DB round trip adds latency (typically 5-15ms for a local/SQLite database, more for networked databases). By setting the picture URI on the entity *before* the initial `AddAsync` call, the INSERT will contain the correct value, eliminating the need for the subsequent UPDATE. Under load, this doubles the write pressure on the database for create operations.\n\n## Proposed Fixes\n\n1. **Set picture URI before AddAsync:** Move `newItem.UpdatePictureUri(\"eCatalog-item-default.png\")` to before line 51 (before `AddAsync`), and remove lines 53-61 (the `if` block with `UpdateAsync`). This consolidates the two DB operations into one INSERT.\n\n## Expected Impact\n\n- **p95 latency:** After the Task.Delay fix, per-request latency for creates should drop by ~5-15ms (one fewer DB round trip).\n- **RPS:** Minor improvement from reduced DB contention.\n- **Overall p95 improvement:** ~1-3% improvement (modest since it only affects create requests at 14.3% of traffic).",
+      "impactEstimate": {
+        "trafficPct": 14.3,
+        "latencyReductionMs": 10,
+        "overallP95ImprovementPct": 2,
+        "confidence": "medium",
+        "reasoning": "Create requests are 14.3% of traffic. Eliminating one DB round trip saves ~10ms per request. Post-Task.Delay-fix p95 will be much lower (~50-100ms), so saving 10ms on 14.3% of traffic yields a modest ~2% overall improvement."
+      }
+    },
+    {
+      "filePath": "src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs",
+      "title": "Eliminate redundant COUNT query for catalog pagination",
+      "scope": "narrow",
+      "rootCause": "## Evidence\n\nAt `CatalogItemListPagedEndpoint.cs:45-54`, the handler executes two separate database queries:\n\n```csharp\nvar filterSpec = new CatalogFilterSpecification(request.CatalogBrandId, request.CatalogTypeId);\nint totalItems = await itemRepository.CountAsync(filterSpec);    // Line 46 — Query 1: COUNT\n\nvar pagedSpec = new CatalogFilterPaginatedSpecification(...);\nvar items = await itemRepository.ListAsync(pagedSpec);           // Line 54 — Query 2: SELECT\n```\n\nBoth queries apply the same brand/type filter but are executed as separate DB round trips. The `CatalogFilterSpecification` (at `CatalogFilterSpecification.cs:8-12`) and `CatalogFilterPaginatedSpecification` (at `CatalogFilterPaginatedSpecification.cs:6-19`) use identical WHERE clauses.\n\n## Theory\n\nTwo sequential DB queries where one would suffice doubles the query overhead for this endpoint. For small datasets (seed data has ~12 items), the COUNT query itself is fast, but the round-trip overhead and connection acquisition add latency. Under high concurrency (50 VUs), the extra queries increase DB connection pool contention and total query volume. After removing `Task.Delay`, this becomes one of the few remaining sources of optimization.\n\n## Proposed Fixes\n\n1. **Compute page count from fetched results:** For the common case where datasets are small and `pageSize=10`, fetch a slightly larger window or use the items list length to infer total count. Alternatively, combine count and fetch into a single spec that returns both. The simplest approach: since the k6 test passes no brand/type filters, compute `totalItems` from the result set size and skip/take values when the result count is less than `pageSize` (indicating last page), otherwise make a single combined query.\n\n2. **Use Ardalis.Specification's built-in pagination support:** Restructure the specification to use `.Take()` and `.Skip()` with a single query that also returns the count, reducing to one DB round trip.\n\n## Expected Impact\n\n- **p95 latency:** Saves ~3-8ms per catalog-list request (one fewer DB round trip).\n- **RPS:** Minor improvement from reduced DB load.\n- **Overall p95 improvement:** ~1-2% after the Task.Delay fix is applied.",
+      "impactEstimate": {
+        "trafficPct": 14.3,
+        "latencyReductionMs": 5,
+        "overallP95ImprovementPct": 1,
+        "confidence": "medium",
+        "reasoning": "Catalog list is 14.3% of traffic. Eliminating one DB round trip saves ~5ms per request. Post-Task.Delay-fix baseline p95 of ~50-100ms means this yields roughly 1% overall improvement. Impact is modest because the dataset is small and query execution is fast."
+      }
+    }
+  ]
+}
