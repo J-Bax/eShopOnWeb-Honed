@@ -6,5 +6,5 @@
 **Generated:** experiment 1 at 03/29/2026 10:36:31
 
 - [x] **#1** `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` — Remove artificial 1-second Task.Delay in catalog list endpoint *(experiment 1 — improved)*
-- [ ] **#2** `src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` — Eliminate redundant second DB write in create endpoint
+- [ ] **#2** `src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` — Eliminate redundant second DB write in create endpoint *(in progress)*
 - [ ] **#3** `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` — Eliminate redundant COUNT query for catalog pagination
