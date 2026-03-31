@@ -1,3 +1,4 @@
+```csharp
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,3 +57,4 @@ public class CatalogBrandListEndpoint : IEndpoint<IResult, IRepository<CatalogBr
         return Results.Ok(response);
     }
 }
+```

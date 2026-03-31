@@ -1,34 +1,27 @@
-# Eliminate redundant second DB write when creating catalog items
+# Cache static catalog types in memory
 
-> **File:** `src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` | **Scope:** narrow
+> **File:** `src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs` | **Scope:** narrow
 
 ## Evidence
 
-At `CreateCatalogItemEndpoint.cs:50-60`, the create handler performs two sequential database writes:
+At `CatalogTypeListEndpoint.cs:40`, every request to `/api/catalog-types` performs a database query for static reference data:
 
 ```csharp
-var newItem = new CatalogItem(request.CatalogTypeId, request.CatalogBrandId, request.Description, request.Name, request.Price, request.PictureUri);
-newItem = await itemRepository.AddAsync(newItem);  // DB write #1
-
-if (newItem.Id != 0)
-{
-    newItem.UpdatePictureUri("eCatalog-item-default.png");
-    await itemRepository.UpdateAsync(newItem);       // DB write #2
-}
+var items = await catalogTypeRepository.ListAsync();
 ```
 
-The `CatalogItem` constructor at `CatalogItem.cs:18-31` accepts `pictureUri` as a parameter, and `UpdatePictureUri` at line 56-64 simply sets the `PictureUri` property. The default picture URI is known at creation time.
+Catalog types are a tiny, immutable reference table (~4 rows). Like brands, this endpoint is called once per k6 iteration but never uses the already-registered `IMemoryCache` service (`Program.cs:53`).
 
 ## Theory
 
-Every create request performs two round-trips to the database: an INSERT followed by an immediate UPDATE. Under the k6 load test, create requests represent ~14.3% of traffic. Each unnecessary UPDATE doubles the write cost for this endpoint, increasing latency and contention on the database. With 50 concurrent VUs, this means up to 50 extra DB round-trips per second that serve no purpose.
+Identical to the brands analysis: under 50 concurrent VUs, hundreds of identical SELECT queries per second hit the types table. Each query incurs DB connection acquisition, EF materialisation, and AutoMapper projection for the same 4 rows. Caching removes all three costs. Combined with brand caching, this eliminates 2 of 7 DB queries per iteration (~28.6% of read traffic), reducing overall DB connection pressure and freeing thread pool threads for write operations.
 
 ## Proposed Fixes
 
-1. **Set the picture URI before the initial AddAsync:** Construct the `CatalogItem` with the default picture URI string (built the same way `UpdatePictureUri` builds it), eliminating the need for the subsequent `UpdateAsync` call. Remove lines 53-61.
+1. **Inject `IMemoryCache` and cache type list:** In `CatalogTypeListEndpoint`, inject `IMemoryCache` via the constructor. In `HandleAsync`, use `GetOrCreateAsync` with a short TTL (e.g., 30-60 seconds) to cache the mapped `List<CatalogTypeDto>`. Return cached data on subsequent calls.
 
 ## Expected Impact
 
-- Per-request latency for create endpoint: reduced by ~5-15ms (one fewer DB round-trip)
-- Reduced DB write contention, benefiting all endpoints
-- Overall p95 improvement: ~1-2% (modest since this is secondary to the Task.Delay issue)
+- p95 latency: ~0.1-0.2ms reduction on affected requests
+- RPS: slight improvement from reduced DB connection contention (cumulative with brand caching)
+- The `/api/catalog-types` endpoint accounts for ~14.3% of total traffic. Eliminating the DB round-trip should reduce per-request latency by ~0.15ms, yielding ~1-2% overall p95 improvement.

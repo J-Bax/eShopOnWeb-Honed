@@ -1,39 +1,39 @@
 {
-  "generatedByExperiment": 1,
-  "generatedAt": "2026-03-31T05:19:45.451824-07:00",
+  "generatedByExperiment": 4,
+  "generatedAt": "2026-03-31T05:58:07.6856587-07:00",
   "items": [
     {
       "id": 1,
-      "filePath": "src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs",
-      "title": "Remove artificial 1-second Task.Delay in catalog list endpoint",
-      "explanation": "Remove artificial 1-second Task.Delay in catalog list endpoint",
+      "filePath": "src/PublicApi/CatalogBrandEndpoints/CatalogBrandListEndpoint.cs",
+      "title": "Cache static catalog brands in memory",
+      "explanation": "Cache static catalog brands in memory",
       "scope": "narrow",
       "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-1.md",
-      "status": "done",
-      "triedByExperiment": 1,
-      "outcome": "improved"
+      "status": "in_progress",
+      "triedByExperiment": null,
+      "outcome": null
     },
     {
       "id": 2,
-      "filePath": "src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs",
-      "title": "Eliminate redundant second DB write when creating catalog items",
-      "explanation": "Eliminate redundant second DB write when creating catalog items",
+      "filePath": "src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs",
+      "title": "Cache static catalog types in memory",
+      "explanation": "Cache static catalog types in memory",
       "scope": "narrow",
       "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-2.md",
-      "status": "done",
-      "triedByExperiment": 2,
-      "outcome": "improved"
+      "status": "pending",
+      "triedByExperiment": null,
+      "outcome": null
     },
     {
       "id": 3,
-      "filePath": "src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs",
-      "title": "Eliminate redundant COUNT query for catalog list pagination",
-      "explanation": "Eliminate redundant COUNT query for catalog list pagination",
+      "filePath": "src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs",
+      "title": "Replace CountAsync with AnyAsync for duplicate check",
+      "explanation": "Replace CountAsync with AnyAsync for duplicate check",
       "scope": "narrow",
       "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-3.md",
-      "status": "done",
-      "triedByExperiment": 3,
-      "outcome": "improved"
+      "status": "pending",
+      "triedByExperiment": null,
+      "outcome": null
     }
   ]
 }
