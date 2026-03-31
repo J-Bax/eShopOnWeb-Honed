@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="97a8f410-ce0d-420b-a211-972c1c811504" name="Windows@DESKTOP-4IBTC05 2026-03-31 01:20:46" runUser="DESKTOP-4IBTC05\Windows" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-03-31T01:20:46.8549586-07:00" queuing="2026-03-31T01:20:46.8549586-07:00" start="2026-03-31T01:20:44.3862480-07:00" finish="2026-03-31T01:20:47.1202559-07:00" />
+  <TestSettings name="default" id="5ffd16e4-dde7-40a5-9a86-2dd6ef3a4d21">
+    <Deployment runDeploymentRoot="Windows_DESKTOP-4IBTC05_2026-03-31_01_20_46" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="25256a1c-618b-4c52-a78c-bcaf36fcc830" testId="3719732c-4cba-1550-cbe0-43c3f496d630" testName="ReturnsExpectedResultGivenCredentials (&quot;baduser@microsoft.com&quot;,&quot;badpassword&quot;,False)" computerName="DESKTOP-4IBTC05" duration="00:00:00.0087138" startTime="2026-03-31T01:20:47.0394811-07:00" endTime="2026-03-31T01:20:47.0484102-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="25256a1c-618b-4c52-a78c-bcaf36fcc830" />
+    <UnitTestResult executionId="8534fa71-0996-4cbb-8f22-53b7cfdb59d4" testId="5ebf6ba7-785b-7676-9db9-6f063b44e567" testName="ReturnsExpectedResultGivenCredentials (&quot;demouser@microsoft.com&quot;,&quot;Pass@word1&quot;,True)" computerName="DESKTOP-4IBTC05" duration="00:00:00.1199291" startTime="2026-03-31T01:20:46.8589309-07:00" endTime="2026-03-31T01:20:46.9792091-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8534fa71-0996-4cbb-8f22-53b7cfdb59d4" />
+    <UnitTestResult executionId="24cd43fd-b6ab-4567-a05b-5f7d69fb6380" testId="ad2c30af-f8f4-e7c0-2745-25e3104157dd" testName="ReturnsNotFoundGivenInvalidIdAndAdminUserToken" computerName="DESKTOP-4IBTC05" duration="00:00:00.0030185" startTime="2026-03-31T01:20:46.8369375-07:00" endTime="2026-03-31T01:20:46.8401453-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="24cd43fd-b6ab-4567-a05b-5f7d69fb6380" />
+    <UnitTestResult executionId="5594f532-7a33-4f7a-b40a-71f8fbc292ac" testId="90b22ba8-f69e-bb6c-86f8-37849c5f2322" testName="ReturnsFirst10CatalogItems" computerName="DESKTOP-4IBTC05" duration="00:00:00.1027397" startTime="2026-03-31T01:20:46.5797927-07:00" endTime="2026-03-31T01:20:46.6826965-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5594f532-7a33-4f7a-b40a-71f8fbc292ac" />
+    <UnitTestResult executionId="59adea81-3cd9-41ea-a2ff-39877f03ae64" testId="e66b1255-feac-8044-34fe-38bcae5bd7d0" testName="ReturnsExpectedResultGivenCredentials (&quot;demouser@microsoft.com&quot;,&quot;badpassword&quot;,False)" computerName="DESKTOP-4IBTC05" duration="00:00:00.0598773" startTime="2026-03-31T01:20:46.9792829-07:00" endTime="2026-03-31T01:20:47.0393919-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="59adea81-3cd9-41ea-a2ff-39877f03ae64" />
+    <UnitTestResult executionId="fbab8444-e7ac-4fb1-89bf-6e9e30357b3f" testId="28ed0d60-7dac-bd6d-d3ce-6f1bbbe113b9" testName="ReturnsNotFoundGivenInvalidIdAndAdminUserToken" computerName="DESKTOP-4IBTC05" duration="00:00:00.0017565" startTime="2026-03-31T01:20:46.8570131-07:00" endTime="2026-03-31T01:20:46.8588851-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fbab8444-e7ac-4fb1-89bf-6e9e30357b3f" />
+    <UnitTestResult executionId="7779b07b-ea26-449d-9f96-8d1e33a586df" testId="ff62d435-3fb5-b7e3-b45c-643e432b8b4f" testName="ReturnsCorrectCatalogItemsGivenPageIndex1" computerName="DESKTOP-4IBTC05" duration="00:00:00.0080715" startTime="2026-03-31T01:20:46.6827725-07:00" endTime="2026-03-31T01:20:46.6909703-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7779b07b-ea26-449d-9f96-8d1e33a586df" />
+    <UnitTestResult executionId="8452ca19-19a6-4686-8602-7276d5c5461a" testId="eed56cb9-9293-5cc9-98aa-5b855e1a9c87" testName="SuccessFullMutipleParallelCall (&quot;catalog-types&quot;)" computerName="DESKTOP-4IBTC05" duration="00:00:00.0161493" startTime="2026-03-31T01:20:46.7404994-07:00" endTime="2026-03-31T01:20:46.7568170-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8452ca19-19a6-4686-8602-7276d5c5461a" />
+    <UnitTestResult executionId="02298f81-b5c8-40c8-8a7f-1ef438479e41" testId="575b1365-bafe-2d9a-f3bd-9ca493c726d4" testName="ReturnsSuccessGivenValidIdAndAdminUserToken" computerName="DESKTOP-4IBTC05" duration="00:00:00.0544250" startTime="2026-03-31T01:20:46.7742537-07:00" endTime="2026-03-31T01:20:46.8288713-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="02298f81-b5c8-40c8-8a7f-1ef438479e41" />
+    <UnitTestResult executionId="410a5157-ca15-4e1f-84c2-0675675f00ee" testId="894ef567-b10c-2379-a595-9743a7650063" testName="ReturnsNotAuthorizedGivenNormalUserToken" computerName="DESKTOP-4IBTC05" duration="00:00:00.0031651" startTime="2026-03-31T01:20:47.0484697-07:00" endTime="2026-03-31T01:20:47.0517995-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="410a5157-ca15-4e1f-84c2-0675675f00ee" />
+    <UnitTestResult executionId="8012bdad-b159-4d03-b3c5-8054c190a733" testId="01ea37a3-3283-9512-3049-97eca2904cc4" testName="ReturnsNotFoundGivenInvalidId" computerName="DESKTOP-4IBTC05" duration="00:00:00.0047271" startTime="2026-03-31T01:20:46.5745033-07:00" endTime="2026-03-31T01:20:46.5794875-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8012bdad-b159-4d03-b3c5-8054c190a733" />
+    <UnitTestResult executionId="5248cf6a-3189-48dd-b818-2a41d613ba50" testId="a3a56bc1-fd1f-e735-f935-80363a79eeca" testName="ReturnsSuccessGivenValidNewItemAndAdminUserToken" computerName="DESKTOP-4IBTC05" duration="00:00:00.0090380" startTime="2026-03-31T01:20:47.0518433-07:00" endTime="2026-03-31T01:20:47.0617161-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5248cf6a-3189-48dd-b818-2a41d613ba50" />
+    <UnitTestResult executionId="aba041a6-70c7-4a40-a4ee-7cf6453f7b7c" testId="99395af2-75b0-ae64-1ce1-cc72f42c0d9b" testName="SuccessFullMutipleParallelCall (&quot;catalog-items/1&quot;)" computerName="DESKTOP-4IBTC05" duration="00:00:00.0169333" startTime="2026-03-31T01:20:46.7568847-07:00" endTime="2026-03-31T01:20:46.7741758-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aba041a6-70c7-4a40-a4ee-7cf6453f7b7c" />
+    <UnitTestResult executionId="1c401e05-15cd-432d-8f32-1f8ea91afada" testId="fb3f5cc9-b069-a5b1-12d7-700c05fd87d3" testName="SuccessFullMutipleParallelCall (&quot;catalog-items&quot;)" computerName="DESKTOP-4IBTC05" duration="00:00:00.0205594" startTime="2026-03-31T01:20:46.6910302-07:00" endTime="2026-03-31T01:20:46.7128280-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1c401e05-15cd-432d-8f32-1f8ea91afada" />
+    <UnitTestResult executionId="923a2b3c-b76d-4882-a08f-12a29b188cdd" testId="41d3de90-f69a-6e8f-8312-a524ede5674b" testName="ReturnsItemGivenValidId" computerName="DESKTOP-4IBTC05" duration="00:00:01.6487763" startTime="2026-03-31T01:20:44.8315696-07:00" endTime="2026-03-31T01:20:46.5709952-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="923a2b3c-b76d-4882-a08f-12a29b188cdd">
+      <Output>
+        <StdOut>info: PublicApi[0]&#xD;
+      PublicApi App created...&#xD;
+info: PublicApi[0]&#xD;
+      Seeding Database...&#xD;
+info: PublicApi[0]&#xD;
+      LAUNCHING PublicApi&#xD;
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]&#xD;
+      Failed to determine the https port for redirect.</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8ac47cbf-7846-497e-8374-6562bdfd6976" testId="04d45c16-9865-39fe-860c-2460d00e9021" testName="ReturnsSuccessGivenValidUpdateAndAdminUserToken" computerName="DESKTOP-4IBTC05" duration="00:00:00.0165099" startTime="2026-03-31T01:20:46.8402333-07:00" endTime="2026-03-31T01:20:46.8569526-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8ac47cbf-7846-497e-8374-6562bdfd6976" />
+    <UnitTestResult executionId="d563e2bc-ea2b-4324-9235-a3a8eab9d199" testId="2b303cc4-501c-227d-19d8-f08402e33924" testName="SuccessFullMutipleParallelCall (&quot;catalog-brands&quot;)" computerName="DESKTOP-4IBTC05" duration="00:00:00.0273229" startTime="2026-03-31T01:20:46.7128978-07:00" endTime="2026-03-31T01:20:46.7404289-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d563e2bc-ea2b-4324-9235-a3a8eab9d199" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="ReturnsNotFoundGivenInvalidIdAndAdminUserToken" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="ad2c30af-f8f4-e7c0-2745-25e3104157dd">
+      <Execution id="24cd43fd-b6ab-4567-a05b-5f7d69fb6380" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.CatalogItemEndpoints.DeleteCatalogItemEndpointTest" name="ReturnsNotFoundGivenInvalidIdAndAdminUserToken" />
+    </UnitTest>
+    <UnitTest name="SuccessFullMutipleParallelCall (&quot;catalog-items/1&quot;)" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="99395af2-75b0-ae64-1ce1-cc72f42c0d9b">
+      <Execution id="aba041a6-70c7-4a40-a4ee-7cf6453f7b7c" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.CatalogItemEndpoints.CatalogItemListPagedEndpoint" name="SuccessFullMutipleParallelCall" />
+    </UnitTest>
+    <UnitTest name="ReturnsCorrectCatalogItemsGivenPageIndex1" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="ff62d435-3fb5-b7e3-b45c-643e432b8b4f">
+      <Execution id="7779b07b-ea26-449d-9f96-8d1e33a586df" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.CatalogItemEndpoints.CatalogItemListPagedEndpoint" name="ReturnsCorrectCatalogItemsGivenPageIndex1" />
+    </UnitTest>
+    <UnitTest name="ReturnsNotFoundGivenInvalidIdAndAdminUserToken" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="28ed0d60-7dac-bd6d-d3ce-6f1bbbe113b9">
+      <Execution id="fbab8444-e7ac-4fb1-89bf-6e9e30357b3f" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.CatalogItemEndpoints.UpdateCatalogItemEndpointTest" name="ReturnsNotFoundGivenInvalidIdAndAdminUserToken" />
+    </UnitTest>
+    <UnitTest name="ReturnsItemGivenValidId" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="41d3de90-f69a-6e8f-8312-a524ede5674b">
+      <Execution id="923a2b3c-b76d-4882-a08f-12a29b188cdd" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.CatalogItemEndpoints.CatalogItemGetByIdEndpointTest" name="ReturnsItemGivenValidId" />
+    </UnitTest>
+    <UnitTest name="ReturnsSuccessGivenValidUpdateAndAdminUserToken" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="04d45c16-9865-39fe-860c-2460d00e9021">
+      <Execution id="8ac47cbf-7846-497e-8374-6562bdfd6976" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.CatalogItemEndpoints.UpdateCatalogItemEndpointTest" name="ReturnsSuccessGivenValidUpdateAndAdminUserToken" />
+    </UnitTest>
+    <UnitTest name="ReturnsExpectedResultGivenCredentials (&quot;baduser@microsoft.com&quot;,&quot;badpassword&quot;,False)" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="3719732c-4cba-1550-cbe0-43c3f496d630">
+      <Execution id="25256a1c-618b-4c52-a78c-bcaf36fcc830" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.AuthEndpoints.AuthenticateEndpoint" name="ReturnsExpectedResultGivenCredentials" />
+    </UnitTest>
+    <UnitTest name="ReturnsFirst10CatalogItems" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="90b22ba8-f69e-bb6c-86f8-37849c5f2322">
+      <Execution id="5594f532-7a33-4f7a-b40a-71f8fbc292ac" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.CatalogItemEndpoints.CatalogItemListPagedEndpoint" name="ReturnsFirst10CatalogItems" />
+    </UnitTest>
+    <UnitTest name="ReturnsSuccessGivenValidIdAndAdminUserToken" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="575b1365-bafe-2d9a-f3bd-9ca493c726d4">
+      <Execution id="02298f81-b5c8-40c8-8a7f-1ef438479e41" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.CatalogItemEndpoints.DeleteCatalogItemEndpointTest" name="ReturnsSuccessGivenValidIdAndAdminUserToken" />
+    </UnitTest>
+    <UnitTest name="SuccessFullMutipleParallelCall (&quot;catalog-brands&quot;)" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="2b303cc4-501c-227d-19d8-f08402e33924">
+      <Execution id="d563e2bc-ea2b-4324-9235-a3a8eab9d199" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.CatalogItemEndpoints.CatalogItemListPagedEndpoint" name="SuccessFullMutipleParallelCall" />
+    </UnitTest>
+    <UnitTest name="ReturnsExpectedResultGivenCredentials (&quot;demouser@microsoft.com&quot;,&quot;badpassword&quot;,False)" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="e66b1255-feac-8044-34fe-38bcae5bd7d0">
+      <Execution id="59adea81-3cd9-41ea-a2ff-39877f03ae64" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.AuthEndpoints.AuthenticateEndpoint" name="ReturnsExpectedResultGivenCredentials" />
+    </UnitTest>
+    <UnitTest name="ReturnsNotAuthorizedGivenNormalUserToken" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="894ef567-b10c-2379-a595-9743a7650063">
+      <Execution id="410a5157-ca15-4e1f-84c2-0675675f00ee" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.AuthEndpoints.CreateCatalogItemEndpointTest" name="ReturnsNotAuthorizedGivenNormalUserToken" />
+    </UnitTest>
+    <UnitTest name="SuccessFullMutipleParallelCall (&quot;catalog-types&quot;)" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="eed56cb9-9293-5cc9-98aa-5b855e1a9c87">
+      <Execution id="8452ca19-19a6-4686-8602-7276d5c5461a" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.CatalogItemEndpoints.CatalogItemListPagedEndpoint" name="SuccessFullMutipleParallelCall" />
+    </UnitTest>
+    <UnitTest name="ReturnsNotFoundGivenInvalidId" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="01ea37a3-3283-9512-3049-97eca2904cc4">
+      <Execution id="8012bdad-b159-4d03-b3c5-8054c190a733" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.CatalogItemEndpoints.CatalogItemGetByIdEndpointTest" name="ReturnsNotFoundGivenInvalidId" />
+    </UnitTest>
+    <UnitTest name="SuccessFullMutipleParallelCall (&quot;catalog-items&quot;)" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="fb3f5cc9-b069-a5b1-12d7-700c05fd87d3">
+      <Execution id="1c401e05-15cd-432d-8f32-1f8ea91afada" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.CatalogItemEndpoints.CatalogItemListPagedEndpoint" name="SuccessFullMutipleParallelCall" />
+    </UnitTest>
+    <UnitTest name="ReturnsExpectedResultGivenCredentials (&quot;demouser@microsoft.com&quot;,&quot;Pass@word1&quot;,True)" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="5ebf6ba7-785b-7676-9db9-6f063b44e567">
+      <Execution id="8534fa71-0996-4cbb-8f22-53b7cfdb59d4" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.AuthEndpoints.AuthenticateEndpoint" name="ReturnsExpectedResultGivenCredentials" />
+    </UnitTest>
+    <UnitTest name="ReturnsSuccessGivenValidNewItemAndAdminUserToken" storage="c:\projects\hone-group\optimizationtargets\eshoponweb-honed\tests\publicapiintegrationtests\bin\release\net8.0\publicapiintegrationtests.dll" id="a3a56bc1-fd1f-e735-f935-80363a79eeca">
+      <Execution id="5248cf6a-3189-48dd-b818-2a41d613ba50" />
+      <TestMethod codeBase="C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll" adapterTypeName="executor://mstestadapter/v2" className="PublicApiIntegrationTests.AuthEndpoints.CreateCatalogItemEndpointTest" name="ReturnsSuccessGivenValidNewItemAndAdminUserToken" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="3719732c-4cba-1550-cbe0-43c3f496d630" executionId="25256a1c-618b-4c52-a78c-bcaf36fcc830" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5ebf6ba7-785b-7676-9db9-6f063b44e567" executionId="8534fa71-0996-4cbb-8f22-53b7cfdb59d4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ad2c30af-f8f4-e7c0-2745-25e3104157dd" executionId="24cd43fd-b6ab-4567-a05b-5f7d69fb6380" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="90b22ba8-f69e-bb6c-86f8-37849c5f2322" executionId="5594f532-7a33-4f7a-b40a-71f8fbc292ac" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e66b1255-feac-8044-34fe-38bcae5bd7d0" executionId="59adea81-3cd9-41ea-a2ff-39877f03ae64" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="28ed0d60-7dac-bd6d-d3ce-6f1bbbe113b9" executionId="fbab8444-e7ac-4fb1-89bf-6e9e30357b3f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ff62d435-3fb5-b7e3-b45c-643e432b8b4f" executionId="7779b07b-ea26-449d-9f96-8d1e33a586df" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="eed56cb9-9293-5cc9-98aa-5b855e1a9c87" executionId="8452ca19-19a6-4686-8602-7276d5c5461a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="575b1365-bafe-2d9a-f3bd-9ca493c726d4" executionId="02298f81-b5c8-40c8-8a7f-1ef438479e41" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="894ef567-b10c-2379-a595-9743a7650063" executionId="410a5157-ca15-4e1f-84c2-0675675f00ee" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="01ea37a3-3283-9512-3049-97eca2904cc4" executionId="8012bdad-b159-4d03-b3c5-8054c190a733" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a3a56bc1-fd1f-e735-f935-80363a79eeca" executionId="5248cf6a-3189-48dd-b818-2a41d613ba50" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="99395af2-75b0-ae64-1ce1-cc72f42c0d9b" executionId="aba041a6-70c7-4a40-a4ee-7cf6453f7b7c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fb3f5cc9-b069-a5b1-12d7-700c05fd87d3" executionId="1c401e05-15cd-432d-8f32-1f8ea91afada" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="41d3de90-f69a-6e8f-8312-a524ede5674b" executionId="923a2b3c-b76d-4882-a08f-12a29b188cdd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="04d45c16-9865-39fe-860c-2460d00e9021" executionId="8ac47cbf-7846-497e-8374-6562bdfd6976" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2b303cc4-501c-227d-19d8-f08402e33924" executionId="d563e2bc-ea2b-4324-9235-a3a8eab9d199" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="17" executed="17" passed="17" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

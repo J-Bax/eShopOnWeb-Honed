@@ -42,19 +42,15 @@ public class CatalogItemListPagedEndpoint : IEndpoint<IResult, ListPagedCatalogI
         var response = new ListPagedCatalogItemResponse(request.CorrelationId());
 
         var filterSpec = new CatalogFilterSpecification(request.CatalogBrandId, request.CatalogTypeId);
+        int totalItems = await itemRepository.CountAsync(filterSpec);
+
         var pagedSpec = new CatalogFilterPaginatedSpecification(
             skip: request.PageIndex * request.PageSize,
             take: request.PageSize,
             brandId: request.CatalogBrandId,
             typeId: request.CatalogTypeId);
 
-        var countTask = itemRepository.CountAsync(filterSpec);
-        var listTask = itemRepository.ListAsync(pagedSpec);
-
-        await Task.WhenAll(countTask, listTask);
-
-        int totalItems = countTask.Result;
-        var items = listTask.Result;
+        var items = await itemRepository.ListAsync(pagedSpec);
 
         response.CatalogItems.AddRange(items.Select(_mapper.Map<CatalogItemDto>));
         foreach (CatalogItemDto item in response.CatalogItems)
