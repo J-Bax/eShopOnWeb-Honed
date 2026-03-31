@@ -1,3 +1,4 @@
+```csharp
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -74,3 +75,4 @@ public class CatalogItemListPagedEndpoint : IEndpoint<IResult, ListPagedCatalogI
         return Results.Ok(response);
     }
 }
+```

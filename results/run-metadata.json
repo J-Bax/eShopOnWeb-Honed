@@ -46,6 +46,27 @@
       "FixRetried": false,
       "FixIterationLogPath": "results/experiment-1/iteration-log.json",
       "FixCommitSha": "08fce6ed9bfce3ab9a3ec2d80303722353fc79e5"
+    },
+    {
+      "Experiment": 2,
+      "StartedAt": "2026-03-31T02:11:49.9282536-07:00",
+      "CompletedAt": "2026-03-31T02:23:36.5016415-07:00",
+      "Improved": true,
+      "Regression": false,
+      "P95": 1.897799999999998,
+      "RPS": 341.3,
+      "Outcome": "improved",
+      "BranchName": "hone/experiment-2",
+      "BaseBranch": "hone/experiment-1",
+      "PrNumber": 8,
+      "PrUrl": "https://github.com/J-Bax/eShopOnWeb-Honed/pull/8",
+      "StaleCount": 0,
+      "ConsecutiveFailures": 0,
+      "FixAttemptCount": 1,
+      "FixFinalAttempt": 1,
+      "FixRetried": false,
+      "FixIterationLogPath": "results/experiment-2/iteration-log.json",
+      "FixCommitSha": "915d09668b261964f366ff2a2181dea8631c7f24"
     }
   ]
 }

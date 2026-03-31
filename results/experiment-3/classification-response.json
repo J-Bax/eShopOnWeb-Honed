@@ -1,0 +1,1 @@
+{"scope":"narrow","reasoning":"The COUNT query elimination can be contained to this single HandleAsync method—e.g., by caching the count in a static field with TTL or conditionally skipping the count when results already indicate the total—without changing public contracts, dependencies, or other files."}
