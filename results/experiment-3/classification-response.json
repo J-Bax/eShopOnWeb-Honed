@@ -1,0 +1,1 @@
+{"scope":"narrow","reasoning":"The optimization modifies only the pagination query logic within the single endpoint handler to avoid a separate COUNT database round-trip, changing internal algorithm without altering the response schema, packages, or requiring multi-file changes."}
