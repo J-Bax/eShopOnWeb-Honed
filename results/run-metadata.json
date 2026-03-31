@@ -1,4 +1,31 @@
 {
+  "BaselineRun": {
+    "StartedAt": "2026-03-31T12:06:40.5080462Z",
+    "CompletedAt": "2026-03-31T05:13:06.0421151-07:00"
+  },
+  "Experiments": [
+    {
+      "Experiment": 1,
+      "StartedAt": "2026-03-31T05:17:56.9942644-07:00",
+      "CompletedAt": "2026-03-31T05:31:28.6124542-07:00",
+      "Improved": true,
+      "Regression": false,
+      "P95": 1.9661,
+      "RPS": 341.0,
+      "Outcome": "improved",
+      "BranchName": "hone/experiment-1",
+      "BaseBranch": "main",
+      "PrNumber": 10,
+      "PrUrl": "https://github.com/J-Bax/eShopOnWeb-Honed/pull/10",
+      "StaleCount": 0,
+      "ConsecutiveFailures": 0,
+      "FixAttemptCount": 1,
+      "FixFinalAttempt": 1,
+      "FixRetried": false,
+      "FixIterationLogPath": "results/experiment-1/iteration-log.json",
+      "FixCommitSha": "c0272d75fa99dee031e271603969c4c06a5f9e49"
+    }
+  ],
   "Machine": {
     "Cpu": {
       "Name": "AMD Ryzen 7 3700X 8-Core Processor",
@@ -9,7 +36,7 @@
     },
     "Memory": {
       "TotalGB": 63.9,
-      "AvailableGB": 10.8
+      "AvailableGB": 9.7
     },
     "OS": {
       "Description": "Windows 10",
@@ -20,11 +47,7 @@
       "DotnetSdkVersion": "8.0.419",
       "ClrVersion": ".NET 8.0.21"
     },
-    "CollectedAt": "2026-03-31T12:06:40.5080462Z"
+    "CollectedAt": "2026-03-31T12:17:56.8515594Z"
   },
-  "BaselineRun": {
-    "StartedAt": "2026-03-31T12:06:40.5080462Z",
-    "CompletedAt": "2026-03-31T05:13:06.0421151-07:00"
-  },
-  "Experiments": []
+  "LoopStartedAt": "2026-03-31T05:17:56.8946757-07:00"
 }

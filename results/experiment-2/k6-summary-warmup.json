@@ -1,0 +1,155 @@
+{
+    "root_group": {
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+                "catalog 200": {
+                    "id": "eebf69297bd2d45f982329d2c19ee960",
+                    "passes": 100,
+                    "fails": 0,
+                    "name": "catalog 200",
+                    "path": "::catalog 200"
+                },
+                "item 200": {
+                    "name": "item 200",
+                    "path": "::item 200",
+                    "id": "ffdcb4ce8d92f84861166ea04707398a",
+                    "passes": 100,
+                    "fails": 0
+                },
+                "brands 200": {
+                    "path": "::brands 200",
+                    "id": "5f8500be7d630320b5268a356b6b08f6",
+                    "passes": 100,
+                    "fails": 0,
+                    "name": "brands 200"
+                },
+                "types 200": {
+                    "id": "593eae1d2a83c4fa30bdf56b6ece6f95",
+                    "passes": 100,
+                    "fails": 0,
+                    "name": "types 200",
+                    "path": "::types 200"
+                },
+                "auth 200": {
+                    "path": "::auth 200",
+                    "id": "88c2b5273b2807f5ce094aef111972e8",
+                    "passes": 100,
+                    "fails": 0,
+                    "name": "auth 200"
+                }
+            }
+    },
+    "metrics": {
+        "http_req_duration": {
+            "med": 0.6342,
+            "max": 6.1017,
+            "p(90)": 4.5011,
+            "p(95)": 4.9935149999999995,
+            "avg": 1.4425027999999993,
+            "min": 0
+        },
+        "http_req_duration{expected_response:true}": {
+            "max": 6.1017,
+            "p(90)": 4.5011,
+            "p(95)": 4.9935149999999995,
+            "avg": 1.4425027999999993,
+            "min": 0,
+            "med": 0.6342
+        },
+        "http_req_connecting": {
+            "p(95)": 0,
+            "avg": 0.0041416000000000005,
+            "min": 0,
+            "med": 0,
+            "max": 0.5417,
+            "p(90)": 0
+        },
+        "checks": {
+            "passes": 500,
+            "fails": 0,
+            "value": 1
+        },
+        "iteration_duration": {
+            "min": 506.1267,
+            "med": 507.8039,
+            "max": 516.862,
+            "p(90)": 508.5077,
+            "p(95)": 509.28669999999994,
+            "avg": 508.12473100000017
+        },
+        "data_received": {
+            "count": 310300,
+            "rate": 30532.859703703933
+        },
+        "data_sent": {
+            "count": 57700,
+            "rate": 5677.557218510206
+        },
+        "vus_max": {
+            "value": 5,
+            "min": 5,
+            "max": 5
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 500,
+            "value": 0
+        },
+        "http_req_tls_handshaking": {
+            "p(95)": 0,
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "max": 0,
+            "p(90)": 0
+        },
+        "http_req_sending": {
+            "avg": 0.010844600000000003,
+            "min": 0,
+            "med": 0,
+            "max": 0.7171,
+            "p(90)": 0,
+            "p(95)": 0
+        },
+        "http_req_waiting": {
+            "p(90)": 4.45931,
+            "p(95)": 4.8781,
+            "avg": 1.2156311999999987,
+            "min": 0,
+            "med": 0.6029,
+            "max": 5.3569
+        },
+        "http_reqs": {
+            "count": 500,
+            "rate": 49.19893603561704
+        },
+        "http_req_receiving": {
+            "avg": 0.2160269999999999,
+            "min": 0,
+            "med": 0,
+            "max": 4.3046,
+            "p(90)": 0.3252,
+            "p(95)": 0.5747499999999721
+        },
+        "iterations": {
+            "count": 100,
+            "rate": 9.839787207123408
+        },
+        "http_req_blocked": {
+            "avg": 0.07924280000000002,
+            "min": 0,
+            "med": 0,
+            "max": 7.8384,
+            "p(90)": 0,
+            "p(95)": 0
+        },
+        "vus": {
+            "value": 5,
+            "min": 5,
+            "max": 5
+        }
+    }
+}

@@ -5,3 +5,4 @@
 | Experiment | Timestamp | File | Optimization | Outcome |
 |-----------|-----------|------|-------------|---------|
 | 1 | 2026-03-31 05:31 | `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` | Remove artificial 1-second Task.Delay in catalog list endpoint | improved |
+| 2 | 2026-03-31 05:43 | `src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` | Eliminate redundant second DB write when creating catalog items | improved |
