@@ -1,42 +1,38 @@
-# Add AsNoTracking to read-only paginated catalog specification
+# Add AsNoTracking to count-only specification
 
-> **File:** `src/ApplicationCore/Specifications/CatalogFilterPaginatedSpecification.cs` | **Scope:** narrow
+> **File:** `src/ApplicationCore/Specifications/CatalogFilterSpecification.cs` | **Scope:** narrow
 
 ## Evidence
 
-At `CatalogFilterPaginatedSpecification.cs:8-19`, the specification queries CatalogItem entities without disabling change tracking:
+At `CatalogFilterSpecification.cs:9-12`, the specification used for COUNT queries lacks `AsNoTracking()`:
 
 ```csharp
-public CatalogFilterPaginatedSpecification(int skip, int take, int? brandId, int? typeId)
-    : base()
+public CatalogFilterSpecification(int? brandId, int? typeId)
 {
-    Query
-        .Where(i => (!brandId.HasValue || i.CatalogBrandId == brandId) &&
-        (!typeId.HasValue || i.CatalogTypeId == typeId))
-        .Skip(skip).Take(take);
+    Query.Where(i => (!brandId.HasValue || i.CatalogBrandId == brandId) &&
+        (!typeId.HasValue || i.CatalogTypeId == typeId));
 }
 ```
 
-This specification is consumed by `CatalogItemListPagedEndpoint.cs:50`:
+This spec is invoked at `CatalogItemListPagedEndpoint.cs:62-63` when a full page is returned:
 
 ```csharp
-var items = await itemRepository.ListAsync(pagedSpec);
+var filterSpec = new CatalogFilterSpecification(request.CatalogBrandId, request.CatalogTypeId);
+totalItems = await itemRepository.CountAsync(filterSpec);
 ```
 
-The `EfRepository<T>` at `EfRepository.cs:6` extends Ardalis `RepositoryBase<T>`, which respects `AsNoTracking()` hints on the specification's query.
+The companion `CatalogFilterPaginatedSpecification` already has `.AsNoTracking()` (added in experiment 8, which showed improvement). This spec was missed.
 
 ## Theory
 
-Without `AsNoTracking()`, EF Core's change tracker creates identity map entries, snapshot copies, and state tracking objects for every returned entity. For the paginated list endpoint returning up to 10 items per request, this means 10 tracked entities per request — all immediately discarded after serialization. Under load (50 concurrent VUs), this creates thousands of short-lived tracking objects per second, amplifying GC pressure.
-
-The 5.9M Gen2 collections in runtime counters suggest excessive object promotion, consistent with change-tracker allocations surviving Gen0/Gen1.
+When `CountAsync` executes with a tracked specification, EF Core still materializes entity metadata into the change tracker even though only a scalar COUNT is needed. With 12 seed items and pageSize=10, page 0 (half of catalog list requests) returns a full page and triggers this COUNT fallback. The change tracker overhead is unnecessary for a read-only aggregate query.
 
 ## Proposed Fixes
 
-1. **Add `AsNoTracking()` to the specification query:** In `CatalogFilterPaginatedSpecification.cs`, add `Query.AsNoTracking()` before or after the existing `.Where(...).Skip(skip).Take(take)` chain. Ardalis.Specification supports this directly.
+1. **Add AsNoTracking to query chain:** At `CatalogFilterSpecification.cs:11`, append `.AsNoTracking()` after the `.Where(...)` clause, matching the pattern already applied to `CatalogFilterPaginatedSpecification`.
 
 ## Expected Impact
 
-- p95 latency: ~0.05-0.1ms reduction per list request from eliminated change tracking overhead
-- Memory/GC: fewer short-lived objects, reducing Gen2 collection frequency
-- Overall p95 improvement: ~0.5-1%
+- p95 latency: ~0.05ms reduction on affected requests
+- Consistent with experiment 8 which showed improvement from the same pattern on the paginated spec
+- Affects ~50% of catalog list requests (~7% of total traffic)

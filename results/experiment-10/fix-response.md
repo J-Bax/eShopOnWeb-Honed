@@ -1,3 +1,4 @@
+```csharp
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.eShopWeb.Infrastructure.Data;
 using Microsoft.eShopWeb.Infrastructure.Identity;
@@ -38,3 +39,4 @@ public static class Dependencies
         }
     }
 }
+```

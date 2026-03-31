@@ -1,0 +1,1 @@
+{"scope":"narrow","reasoning":"Changing `AddDbContext<CatalogContext>` to `AddDbContextPool<CatalogContext>` is a single-file method call swap within Dependencies.cs, requiring no new packages, no schema changes, and no public API alterations."}

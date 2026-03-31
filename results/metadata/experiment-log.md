@@ -12,3 +12,5 @@
 | 6 | 2026-03-31 06:34 | `src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` | Replace CountAsync with AnyAsync for duplicate check | stale |
 | 7 | 2026-03-31 06:48 | `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` | Eliminate AutoMapper overhead and inefficient PageCount calculation in list endpoint | stale |
 | 8 | 2026-03-31 07:00 | `src/ApplicationCore/Specifications/CatalogFilterPaginatedSpecification.cs` | Add AsNoTracking to read-only paginated catalog specification | improved |
+| 9 | 2026-03-31 07:01 | `src/PublicApi/CatalogItemEndpoints/UpdateCatalogItemEndpoint.cs` | Skip redundant fetch in update by using direct entity attach pattern | queued |
+| 10 | 2026-03-31 07:15 | `src/Infrastructure/Dependencies.cs` | Enable DbContext pooling for CatalogContext | improved |

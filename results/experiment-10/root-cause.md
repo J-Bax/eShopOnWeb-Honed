@@ -1,3 +1,14 @@
+# Root Cause Analysis — Experiment 10
+
+> Generated: 2026-03-31 07:04:07 | Classification: narrow — Changing `AddDbContext<CatalogContext>` to `AddDbContextPool<CatalogContext>` is a single-file method call swap within Dependencies.cs, requiring no new packages, no schema changes, and no public API alterations.
+
+| Metric | Current | Baseline |
+|--------|---------|----------|
+| p95 Latency | 1.80614ms | 1014.90584ms |
+| Requests/sec | 341.7 | 114.9 |
+| Error Rate | 0% | 0% |
+
+---
 # Enable DbContext pooling for CatalogContext
 
 > **File:** `src/Infrastructure/Dependencies.cs` | **Scope:** narrow
@@ -33,3 +44,4 @@ Each scoped `CatalogContext` allocation includes internal EF Core infrastructure
 - p95 latency: reduction of ~0.1-0.3ms from reduced GC pauses and allocation overhead
 - RPS: modest improvement from lower per-request overhead
 - ~71% of traffic uses CatalogContext, so this has broad reach
+
