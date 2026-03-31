@@ -1,0 +1,1 @@
+{"scope":"narrow","reasoning":"A static in-memory cache (e.g., a static list with TTL) can be added entirely within this single endpoint class to avoid repeated DB queries for catalog types, requiring no new dependencies or configuration changes."}

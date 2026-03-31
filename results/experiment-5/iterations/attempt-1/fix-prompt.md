@@ -1,3 +1,24 @@
+Apply this specific optimization to the file and return the complete new file content.
+
+## Target File
+src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs
+
+## Optimization to Apply
+Cache static catalog types in memory
+
+## Root Cause Analysis
+
+# Root Cause Analysis — Experiment 5
+
+> Generated: 2026-03-31 06:11:08 | Classification: narrow — A static in-memory cache (e.g., a static list with TTL) can be added entirely within this single endpoint class to avoid repeated DB queries for catalog types, requiring no new dependencies or configuration changes.
+
+| Metric | Current | Baseline |
+|--------|---------|----------|
+| p95 Latency | 1.77454ms | 1014.90584ms |
+| Requests/sec | 341.4 | 114.9 |
+| Error Rate | 0% | 0% |
+
+---
 # Cache static catalog types in memory
 
 > **File:** `src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs` | **Scope:** narrow
@@ -25,3 +46,10 @@ Identical to the brands analysis: under 50 concurrent VUs, hundreds of identical
 - p95 latency: ~0.1-0.2ms reduction on affected requests
 - RPS: slight improvement from reduced DB connection contention (cumulative with brand caching)
 - The `/api/catalog-types` endpoint accounts for ~14.3% of total traffic. Eliminating the DB round-trip should reduce per-request latency by ~0.15ms, yielding ~1-2% overall p95 improvement.
+
+
+
+
+Read the file at the path above (relative to the eShopOnWeb root), apply ONLY the
+optimization described, and return the COMPLETE new file in a fenced code block.
+No explanation, no commentary — just the code block.

@@ -1,27 +1,33 @@
-# Remove artificial 1-second Task.Delay in catalog list endpoint
+# Cache static catalog brands in memory
 
-> **File:** `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` | **Scope:** narrow
+> **File:** `src/PublicApi/CatalogBrandEndpoints/CatalogBrandListEndpoint.cs` | **Scope:** narrow
 
 ## Evidence
 
-At `CatalogItemListPagedEndpoint.cs:42`, the handler begins with:
+At `CatalogBrandListEndpoint.cs:40`, every request to `/api/catalog-brands` executes a full database query:
 
 ```csharp
-await Task.Delay(1000);
+var items = await catalogBrandRepository.ListAsync();
 ```
 
-This introduces a hard-coded 1-second sleep on every paginated catalog list request. The current p95 latency is 1014.9ms, which almost exactly matches this delay plus minimal DB/serialization overhead.
+Catalog brands are static reference data (~5 rows) that never change during a load test run. Yet every single k6 iteration triggers a fresh DB round-trip. The application already registers `IMemoryCache` at `Program.cs:53`:
+
+```csharp
+builder.Services.AddMemoryCache();
+```
+
+but no endpoint uses it.
 
 ## Theory
 
-The `Task.Delay(1000)` forces every catalog-items list request to take at least 1000ms regardless of actual workload. Since the k6 scenario calls `GET /api/catalog-items` once per iteration (≈14.3% of all requests), this creates a guaranteed latency floor of 1000ms for a significant share of traffic. Under load with 50 concurrent VUs, this also holds thread-pool / async continuations for 1 second each, amplifying queuing delays across all endpoints. The p95 of 1014.9ms is almost entirely explained by this artificial delay.
+Each of the ~50 concurrent VUs calls `/api/catalog-brands` once per iteration, generating hundreds of identical SELECT queries per second against a table that returns the same 5 rows every time. While each query is fast individually, the cumulative DB connection overhead, EF object materialisation, and AutoMapper projection add up — especially under contention. Caching this tiny, immutable dataset in `IMemoryCache` eliminates the DB round-trip, EF tracking, and mapper allocation entirely for the vast majority of requests.
 
 ## Proposed Fixes
 
-1. **Remove the `Task.Delay(1000)` call:** Delete line 42 of `CatalogItemListPagedEndpoint.cs`. No other code depends on this delay.
+1. **Inject `IMemoryCache` and cache brand list:** In `CatalogBrandListEndpoint`, inject `IMemoryCache` via the constructor. In `HandleAsync`, use `GetOrCreateAsync` with a short TTL (e.g., 30-60 seconds) to cache the mapped `List<CatalogBrandDto>`. Return the cached list on subsequent calls, skipping the repository and mapper entirely.
 
 ## Expected Impact
 
-- p95 latency: should drop from ~1015ms to ~50-150ms (the natural DB + serialization cost)
-- RPS: should increase significantly as the bottleneck is removed
-- Estimated overall p95 improvement: 80-90%, since this delay dominates the p95 distribution
+- p95 latency: ~0.1-0.2ms reduction on affected requests by eliminating DB + EF + AutoMapper overhead
+- RPS: slight improvement from reduced DB connection contention
+- The `/api/catalog-brands` endpoint accounts for ~14.3% of total traffic (1 of 7 requests per iteration). Eliminating the DB round-trip should reduce per-request latency by ~0.15ms, yielding ~1-2% overall p95 improvement.
