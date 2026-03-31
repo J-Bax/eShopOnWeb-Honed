@@ -1,0 +1,1 @@
+{"scope":"narrow","reasoning":"Removing the `await Task.Delay(1000)` on line 42 is a single-line deletion within one file's method body, with no dependency, API contract, or architectural changes."}
