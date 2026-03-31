@@ -1,0 +1,1 @@
+{"scope":"narrow","reasoning":"The count query (line 45) and list query (line 53) are independent and can be parallelized with Task.WhenAll entirely within this single file's HandleAsync method, requiring no dependency, API, or architectural changes."}
