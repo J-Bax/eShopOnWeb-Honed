@@ -1,3 +1,24 @@
+Apply this specific optimization to the file and return the complete new file content.
+
+## Target File
+src/ApplicationCore/Specifications/CatalogFilterPaginatedSpecification.cs
+
+## Optimization to Apply
+Add AsNoTracking to read-only paginated catalog specification
+
+## Root Cause Analysis
+
+# Root Cause Analysis — Experiment 8
+
+> Generated: 2026-03-31 06:48:57 | Classification: narrow — Adding AsNoTracking to a read-only Ardalis Specification is a single-file change to the Query builder chain in CatalogFilterPaginatedSpecification.cs, requiring no new dependencies, no API contract changes, and no additional file modifications.
+
+| Metric | Current | Baseline |
+|--------|---------|----------|
+| p95 Latency | 1.8235ms | 1014.90584ms |
+| Requests/sec | 341.7 | 114.9 |
+| Error Rate | 0% | 0% |
+
+---
 # Add AsNoTracking to read-only paginated catalog specification
 
 > **File:** `src/ApplicationCore/Specifications/CatalogFilterPaginatedSpecification.cs` | **Scope:** narrow
@@ -40,3 +61,10 @@ The 5.9M Gen2 collections in runtime counters suggest excessive object promotion
 - p95 latency: ~0.05-0.1ms reduction per list request from eliminated change tracking overhead
 - Memory/GC: fewer short-lived objects, reducing Gen2 collection frequency
 - Overall p95 improvement: ~0.5-1%
+
+
+
+
+Read the file at the path above (relative to the eShopOnWeb root), apply ONLY the
+optimization described, and return the COMPLETE new file in a fenced code block.
+No explanation, no commentary — just the code block.

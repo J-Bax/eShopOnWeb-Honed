@@ -1,3 +1,4 @@
+```csharp
 ﻿using Ardalis.Specification;
 using Microsoft.eShopWeb.ApplicationCore.Entities;
 
@@ -19,3 +20,4 @@ public class CatalogFilterPaginatedSpecification : Specification<CatalogItem>
             .AsNoTracking();
     }
 }
+```

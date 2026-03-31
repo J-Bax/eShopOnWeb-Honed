@@ -1,0 +1,1 @@
+{"scope":"narrow","reasoning":"Adding AsNoTracking to a read-only Ardalis Specification is a single-file change to the Query builder chain in CatalogFilterPaginatedSpecification.cs, requiring no new dependencies, no API contract changes, and no additional file modifications."}

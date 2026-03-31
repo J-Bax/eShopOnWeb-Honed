@@ -1,33 +1,39 @@
-# Cache static catalog brands in memory
+# Eliminate AutoMapper overhead and inefficient PageCount calculation in list endpoint
 
-> **File:** `src/PublicApi/CatalogBrandEndpoints/CatalogBrandListEndpoint.cs` | **Scope:** narrow
+> **File:** `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` | **Scope:** narrow
 
 ## Evidence
 
-At `CatalogBrandListEndpoint.cs:40`, every request to `/api/catalog-brands` executes a full database query:
+At `CatalogItemListPagedEndpoint.cs:66`, the endpoint uses AutoMapper to map each entity:
 
 ```csharp
-var items = await catalogBrandRepository.ListAsync();
+response.CatalogItems.AddRange(items.Select(_mapper.Map<CatalogItemDto>));
 ```
 
-Catalog brands are static reference data (~5 rows) that never change during a load test run. Yet every single k6 iteration triggers a fresh DB round-trip. The application already registers `IMemoryCache` at `Program.cs:53`:
+Other endpoints (e.g., `CatalogItemGetByIdEndpoint.cs:42-51`) use direct manual mapping, which avoids AutoMapper's internal reflection and expression compilation overhead.
+
+At `CatalogItemListPagedEndpoint.cs:74`, the PageCount calculation is:
 
 ```csharp
-builder.Services.AddMemoryCache();
+response.PageCount = int.Parse(Math.Ceiling((decimal)totalItems / request.PageSize).ToString());
 ```
 
-but no endpoint uses it.
+This performs decimal division, `Math.Ceiling`, `ToString()` (allocating a string), and `int.Parse` — all unnecessary when simple integer ceiling division `(totalItems + request.PageSize - 1) / request.PageSize` produces the same result with zero allocations.
 
 ## Theory
 
-Each of the ~50 concurrent VUs calls `/api/catalog-brands` once per iteration, generating hundreds of identical SELECT queries per second against a table that returns the same 5 rows every time. While each query is fast individually, the cumulative DB connection overhead, EF object materialisation, and AutoMapper projection add up — especially under contention. Caching this tiny, immutable dataset in `IMemoryCache` eliminates the DB round-trip, EF tracking, and mapper allocation entirely for the vast majority of requests.
+AutoMapper incurs per-call overhead: delegate invocations, internal dictionary lookups, and intermediate object allocations for each mapped item. For a page of 10 items, this is 10× the cost vs. direct property assignment. Combined with the string allocation in PageCount, this adds measurable GC pressure on every catalog list request.
+
+The runtime counters show **5.9M Gen2 collections**, indicating significant GC pressure. Eliminating unnecessary allocations on a hot path (14.3% of traffic) directly reduces GC pauses that inflate p95 latency.
 
 ## Proposed Fixes
 
-1. **Inject `IMemoryCache` and cache brand list:** In `CatalogBrandListEndpoint`, inject `IMemoryCache` via the constructor. In `HandleAsync`, use `GetOrCreateAsync` with a short TTL (e.g., 30-60 seconds) to cache the mapped `List<CatalogBrandDto>`. Return the cached list on subsequent calls, skipping the repository and mapper entirely.
+1. **Replace AutoMapper with manual mapping:** At line 66, replace `items.Select(_mapper.Map<CatalogItemDto>)` with a direct Select that constructs `CatalogItemDto` inline (same pattern as `CatalogItemGetByIdEndpoint.cs:42-51`). This also allows folding the `PictureUri` composition (lines 67-70) into the same Select, eliminating the separate foreach loop.
+
+2. **Replace PageCount with integer arithmetic:** At line 74, replace `int.Parse(Math.Ceiling((decimal)totalItems / request.PageSize).ToString())` with `(totalItems + request.PageSize - 1) / request.PageSize`.
 
 ## Expected Impact
 
-- p95 latency: ~0.1-0.2ms reduction on affected requests by eliminating DB + EF + AutoMapper overhead
-- RPS: slight improvement from reduced DB connection contention
-- The `/api/catalog-brands` endpoint accounts for ~14.3% of total traffic (1 of 7 requests per iteration). Eliminating the DB round-trip should reduce per-request latency by ~0.15ms, yielding ~1-2% overall p95 improvement.
+- p95 latency: reduction of ~0.05-0.15ms per request due to fewer allocations and no AutoMapper overhead
+- GC pressure: measurable reduction in Gen2 collections from eliminating per-request string and AutoMapper allocations
+- Overall p95 improvement: ~1-2%
