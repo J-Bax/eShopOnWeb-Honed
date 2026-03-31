@@ -9,9 +9,9 @@
       "explanation": "Cache static catalog brands in memory",
       "scope": "narrow",
       "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-1.md",
-      "status": "in_progress",
-      "triedByExperiment": null,
-      "outcome": null
+      "status": "done",
+      "triedByExperiment": 4,
+      "outcome": "stale"
     },
     {
       "id": 2,

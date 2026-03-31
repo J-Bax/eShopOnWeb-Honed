@@ -7,3 +7,4 @@
 | 1 | 2026-03-31 05:31 | `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` | Remove artificial 1-second Task.Delay in catalog list endpoint | improved |
 | 2 | 2026-03-31 05:43 | `src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` | Eliminate redundant second DB write when creating catalog items | improved |
 | 3 | 2026-03-31 05:55 | `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` | Eliminate redundant COUNT query for catalog list pagination | improved |
+| 4 | 2026-03-31 06:10 | `src/PublicApi/CatalogBrandEndpoints/CatalogBrandListEndpoint.cs` | Cache static catalog brands in memory | stale |

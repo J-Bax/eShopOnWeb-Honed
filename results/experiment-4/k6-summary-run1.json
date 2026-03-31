@@ -1,0 +1,201 @@
+{
+    "root_group": {
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {
+            "setup": {
+                "path": "::setup",
+                "id": "5c0f8025f7e0b6654089e5b00e950f1a",
+                "groups": {},
+                "checks": {
+                        "auth 200": {
+                            "name": "auth 200",
+                            "path": "::setup::auth 200",
+                            "id": "739fb15207d8222a116cd477eb8d845b",
+                            "passes": 1,
+                            "fails": 0
+                        }
+                    },
+                "name": "setup"
+            }
+        },
+        "checks": {
+            "catalog list 200": {
+                "name": "catalog list 200",
+                "path": "::catalog list 200",
+                "id": "aad072edee74164fc9b8c1524052d20b",
+                "passes": 2950,
+                "fails": 0
+            },
+            "catalog has items": {
+                "name": "catalog has items",
+                "path": "::catalog has items",
+                "id": "04890e4ce7c22daebc8706c25f9ddc9f",
+                "passes": 2950,
+                "fails": 0
+            },
+            "item detail 200": {
+                "passes": 2950,
+                "fails": 0,
+                "name": "item detail 200",
+                "path": "::item detail 200",
+                "id": "7f5666810b13a32df7652f9277560526"
+            },
+            "brands 200": {
+                "name": "brands 200",
+                "path": "::brands 200",
+                "id": "5f8500be7d630320b5268a356b6b08f6",
+                "passes": 2950,
+                "fails": 0
+            },
+            "types 200": {
+                "name": "types 200",
+                "path": "::types 200",
+                "id": "593eae1d2a83c4fa30bdf56b6ece6f95",
+                "passes": 2950,
+                "fails": 0
+            },
+            "health 200": {
+                "path": "::health 200",
+                "id": "8e4f90a842a57472549a6b2cf699032d",
+                "passes": 2950,
+                "fails": 0,
+                "name": "health 200"
+            },
+            "update 200": {
+                "name": "update 200",
+                "path": "::update 200",
+                "id": "7ea104c1961d25326c0409f06885ea15",
+                "passes": 2950,
+                "fails": 0
+            },
+            "create 201": {
+                "id": "156654209db568811cc0f7da2d599478",
+                "passes": 2950,
+                "fails": 0,
+                "name": "create 201",
+                "path": "::create 201"
+            }
+        },
+        "name": ""
+    },
+    "metrics": {
+        "http_req_tls_handshaking": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "max": 0
+        },
+        "http_reqs": {
+            "rate": 340.98119540801446,
+            "count": 20651
+        },
+        "http_req_blocked": {
+            "med": 0,
+            "max": 4.1843,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.0017655852016851478,
+            "min": 0
+        },
+        "http_req_receiving": {
+            "avg": 0.2708712411021262,
+            "min": 0,
+            "med": 0,
+            "max": 12.803,
+            "p(90)": 0.9167,
+            "p(95)": 1.1264500000000002
+        },
+        "iterations": {
+            "count": 2950,
+            "rate": 48.70924054300725
+        },
+        "http_req_connecting": {
+            "min": 0,
+            "med": 0,
+            "max": 0.5323,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.0005189627620938452
+        },
+        "data_sent": {
+            "count": 4393534,
+            "rate": 72544.3065897901
+        },
+        "vus_max": {
+            "value": 50,
+            "min": 50,
+            "max": 50
+        },
+        "checks": {
+            "passes": 23601,
+            "fails": 0,
+            "value": 1
+        },
+        "http_req_duration": {
+            "max": 199.564,
+            "p(90)": 1.8331,
+            "p(95)": 2.1597999999999997,
+            "avg": 1.0334011718560923,
+            "min": 0,
+            "med": 0.8566,
+            "thresholds": {
+                "p(95)<2000": false
+            }
+        },
+        "http_req_sending": {
+            "p(95)": 0,
+            "avg": 0.0036516536729456206,
+            "min": 0,
+            "med": 0,
+            "max": 1.167,
+            "p(90)": 0
+        },
+        "http_req_duration{expected_response:true}": {
+            "min": 0,
+            "med": 0.8566,
+            "max": 199.564,
+            "p(90)": 1.8331,
+            "p(95)": 2.1597999999999997,
+            "avg": 1.0334011718560923
+        },
+        "data_received": {
+            "count": 11251084,
+            "rate": 185773.47692392545
+        },
+        "iteration_duration": {
+            "avg": 507.81589352542403,
+            "min": 500.058,
+            "med": 506.77684999999997,
+            "max": 715.2506,
+            "p(90)": 508.65216000000004,
+            "p(95)": 510.110575
+        },
+        "http_req_waiting": {
+            "max": 199.0533,
+            "p(90)": 1.5539,
+            "p(95)": 1.9238,
+            "avg": 0.7588782770810132,
+            "min": 0,
+            "med": 0.5215
+        },
+        "vus": {
+            "value": 3,
+            "min": 1,
+            "max": 49
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 20651,
+            "thresholds": {
+                "rate<0.05": false
+            },
+            "value": 0
+        }
+    },
+    "setup_data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluQG1pY3Jvc29mdC5jb20iLCJyb2xlIjoiQWRtaW5pc3RyYXRvcnMiLCJuYmYiOjE3NzQ5NjE5ODgsImV4cCI6MTc3NTU2Njc4OCwiaWF0IjoxNzc0OTYxOTg4fQ.8P8PDh-3fJ07XECt31svUFzETkh2Cm2-do-VJ9rcOqU"
+    }
+}
