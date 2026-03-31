@@ -9,3 +9,4 @@
 | 3 | 2026-03-31 05:55 | `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` | Eliminate redundant COUNT query for catalog list pagination | improved |
 | 4 | 2026-03-31 06:10 | `src/PublicApi/CatalogBrandEndpoints/CatalogBrandListEndpoint.cs` | Cache static catalog brands in memory | stale |
 | 5 | 2026-03-31 06:22 | `src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs` | Cache static catalog types in memory | improved |
+| 6 | 2026-03-31 06:34 | `src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` | Replace CountAsync with AnyAsync for duplicate check | stale |

@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -41,8 +41,8 @@ public class CreateCatalogItemEndpoint : IEndpoint<IResult, CreateCatalogItemReq
         var response = new CreateCatalogItemResponse(request.CorrelationId());
 
         var catalogItemNameSpecification = new CatalogItemNameSpecification(request.Name);
-        var existingCataloogItem = await itemRepository.AnyAsync(catalogItemNameSpecification);
-        if (existingCataloogItem)
+        var existingCataloogItem = await itemRepository.CountAsync(catalogItemNameSpecification);
+        if (existingCataloogItem > 0)
         {
             throw new DuplicateException($"A catalogItem with name {request.Name} already exists");
         }
