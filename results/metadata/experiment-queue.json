@@ -1,0 +1,39 @@
+{
+  "generatedByExperiment": 1,
+  "generatedAt": "2026-03-31T00:56:35.218053-07:00",
+  "items": [
+    {
+      "id": 1,
+      "filePath": "src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs",
+      "title": "Remove artificial Task.Delay(1000) from catalog list endpoint",
+      "explanation": "Remove artificial Task.Delay(1000) from catalog list endpoint",
+      "scope": "narrow",
+      "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-1.md",
+      "status": "done",
+      "triedByExperiment": 1,
+      "outcome": "improved"
+    },
+    {
+      "id": 2,
+      "filePath": "src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs",
+      "title": "Eliminate redundant second DB write when creating catalog items",
+      "explanation": "Eliminate redundant second DB write when creating catalog items",
+      "scope": "narrow",
+      "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-2.md",
+      "status": "pending",
+      "triedByExperiment": null,
+      "outcome": null
+    },
+    {
+      "id": 3,
+      "filePath": "src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs",
+      "title": "Parallelize count and list queries in paginated catalog endpoint",
+      "explanation": "Parallelize count and list queries in paginated catalog endpoint",
+      "scope": "narrow",
+      "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-3.md",
+      "status": "pending",
+      "triedByExperiment": null,
+      "outcome": null
+    }
+  ]
+}
