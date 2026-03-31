@@ -1,0 +1,201 @@
+{
+    "root_group": {
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {
+            "setup": {
+                "name": "setup",
+                "path": "::setup",
+                "id": "5c0f8025f7e0b6654089e5b00e950f1a",
+                "groups": {},
+                "checks": {
+                        "auth 200": {
+                            "name": "auth 200",
+                            "path": "::setup::auth 200",
+                            "id": "739fb15207d8222a116cd477eb8d845b",
+                            "passes": 1,
+                            "fails": 0
+                        }
+                    }
+            }
+        },
+        "checks": {
+            "catalog list 200": {
+                "passes": 48,
+                "fails": 118551,
+                "name": "catalog list 200",
+                "path": "::catalog list 200",
+                "id": "aad072edee74164fc9b8c1524052d20b"
+            },
+            "catalog has items": {
+                "name": "catalog has items",
+                "path": "::catalog has items",
+                "id": "04890e4ce7c22daebc8706c25f9ddc9f",
+                "passes": 48,
+                "fails": 118551
+            },
+            "item detail 200": {
+                "path": "::item detail 200",
+                "id": "7f5666810b13a32df7652f9277560526",
+                "passes": 48,
+                "fails": 0,
+                "name": "item detail 200"
+            },
+            "brands 200": {
+                "name": "brands 200",
+                "path": "::brands 200",
+                "id": "5f8500be7d630320b5268a356b6b08f6",
+                "passes": 48,
+                "fails": 0
+            },
+            "types 200": {
+                "name": "types 200",
+                "path": "::types 200",
+                "id": "593eae1d2a83c4fa30bdf56b6ece6f95",
+                "passes": 48,
+                "fails": 0
+            },
+            "health 200": {
+                "name": "health 200",
+                "path": "::health 200",
+                "id": "8e4f90a842a57472549a6b2cf699032d",
+                "passes": 48,
+                "fails": 0
+            },
+            "update 200": {
+                "name": "update 200",
+                "path": "::update 200",
+                "id": "7ea104c1961d25326c0409f06885ea15",
+                "passes": 48,
+                "fails": 0
+            },
+            "create 201": {
+                "name": "create 201",
+                "path": "::create 201",
+                "id": "156654209db568811cc0f7da2d599478",
+                "passes": 48,
+                "fails": 0
+            }
+        }
+    },
+    "metrics": {
+        "data_received": {
+            "count": 60283925,
+            "rate": 996641.5713018584
+        },
+        "vus_max": {
+            "value": 50,
+            "min": 50,
+            "max": 50
+        },
+        "http_req_duration": {
+            "avg": 12.170795349404361,
+            "min": 0,
+            "med": 10.8891,
+            "max": 280.9665,
+            "p(90)": 23.285390000000003,
+            "p(95)": 28.760404999999967,
+            "thresholds": {
+                "p(95)<2000": false
+            }
+        },
+        "iterations": {
+            "count": 118599,
+            "rate": 1960.733208974517
+        },
+        "vus": {
+            "value": 2,
+            "min": 1,
+            "max": 49
+        },
+        "http_req_sending": {
+            "min": 0,
+            "med": 0,
+            "max": 4.4263,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.008746541282551654
+        },
+        "http_req_failed": {
+            "passes": 118551,
+            "fails": 337,
+            "thresholds": {
+                "rate<0.05": true
+            },
+            "value": 0.997165399367472
+        },
+        "http_req_receiving": {
+            "p(90)": 0.5871300000000003,
+            "p(95)": 1.1388649999999994,
+            "avg": 0.20834472276428073,
+            "min": 0,
+            "med": 0,
+            "max": 14.6005
+        },
+        "http_req_connecting": {
+            "p(95)": 0,
+            "avg": 0.00005049205975371778,
+            "min": 0,
+            "med": 0,
+            "max": 0.5887,
+            "p(90)": 0
+        },
+        "http_req_blocked": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.0021673827467868926,
+            "min": 0,
+            "med": 0,
+            "max": 4.8872
+        },
+        "http_req_waiting": {
+            "avg": 11.953704085357515,
+            "min": 0,
+            "med": 10.66525,
+            "max": 280.9665,
+            "p(90)": 23.00046,
+            "p(95)": 28.377239999999933
+        },
+        "http_req_duration{expected_response:true}": {
+            "avg": 2.1300813056379826,
+            "min": 0,
+            "med": 1.0564,
+            "max": 197.323,
+            "p(90)": 2.11486,
+            "p(95)": 2.6130199999999992
+        },
+        "http_req_tls_handshaking": {
+            "p(95)": 0,
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "max": 0,
+            "p(90)": 0
+        },
+        "data_sent": {
+            "rate": 220699.11424783678,
+            "count": 13349442
+        },
+        "iteration_duration": {
+            "min": 0,
+            "med": 10.999,
+            "max": 645.5839,
+            "p(90)": 23.396679999999996,
+            "p(95)": 28.917759999999994,
+            "avg": 12.476412240406672
+        },
+        "http_reqs": {
+            "count": 118888,
+            "rate": 1965.511089879024
+        },
+        "checks": {
+            "passes": 385,
+            "fails": 237102,
+            "value": 0.0016211413677380236
+        }
+    },
+    "setup_data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluQG1pY3Jvc29mdC5jb20iLCJyb2xlIjoiQWRtaW5pc3RyYXRvcnMiLCJuYmYiOjE3NzQ5NDk0NTYsImV4cCI6MTc3NTU1NDI1NiwiaWF0IjoxNzc0OTQ5NDU2fQ.KS8I619Pv1qYyqMHpDcVDYSkJbonznxs7FXEJvEAN2A"
+    }
+}

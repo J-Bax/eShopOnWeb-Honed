@@ -1,0 +1,22 @@
+{
+  "experiment": 3,
+  "totalAttempts": 1,
+  "finalOutcome": "success",
+  "attempts": [
+    {
+      "attempt": 1,
+      "stage": "test",
+      "outcome": "passed",
+      "durationSec": 44.23,
+      "diffLines": 359,
+      "commitSha": "38c26da7a3e8890fa64c9cfc6a5f00a69223b8ae",
+      "artifacts": {
+        "fixPrompt": "results/experiment-3/iterations/attempt-1/fix-prompt.md",
+        "fixResponse": "results/experiment-3/iterations/attempt-1/fix-response.md",
+        "buildLog": "results/experiment-3/iterations/attempt-1/build.log",
+        "e2eLog": "results/experiment-3/iterations/attempt-1/e2e-tests.log",
+        "e2eResults": "results/experiment-3/iterations/attempt-1/e2e-results.trx"
+      }
+    }
+  ]
+}
