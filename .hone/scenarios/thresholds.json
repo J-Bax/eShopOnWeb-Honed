@@ -1,0 +1,46 @@
+{
+    "scenarios": {
+        "baseline": {
+            "description": "Read workload: staged 10-50 VUs across all catalog read endpoints + health",
+            "file": "baseline.js",
+            "use_for_optimization": true,
+            "thresholds": {
+                "http_req_duration_p95_ms": 2000,
+                "http_req_failed_rate": 0.05
+            }
+        },
+        "stress": {
+            "description": "Breaking-point: staged 10-200 VUs, all endpoints including auth and writes",
+            "file": "stress.js",
+            "use_for_optimization": false,
+            "thresholds": {
+                "http_req_duration_p95_ms": 2000,
+                "http_req_failed_rate": 0.10
+            }
+        },
+        "stress-catalog": {
+            "description": "Catalog CRUD lifecycle: auth, create, read, update, delete, browse",
+            "file": "stress-catalog.js",
+            "use_for_optimization": false,
+            "thresholds": {
+                "http_req_duration_p95_ms": 2000,
+                "http_req_failed_rate": 0.10
+            }
+        },
+        "stress-auth": {
+            "description": "Authentication load: admin login, user login, invalid credentials",
+            "file": "stress-auth.js",
+            "use_for_optimization": false,
+            "thresholds": {
+                "http_req_duration_p95_ms": 2000,
+                "http_req_failed_rate": 0.50
+            }
+        },
+        "warmup": {
+            "description": "JIT/EF primer: 5 VUs for 10s, lightweight reads + one auth",
+            "file": "warmup.js",
+            "use_for_optimization": false,
+            "thresholds": {}
+        }
+    }
+}
