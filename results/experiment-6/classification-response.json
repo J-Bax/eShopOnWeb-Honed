@@ -1,0 +1,1 @@
+{"scope":"narrow","reasoning":"Replacing `CountAsync` with `AnyAsync` on line 44 is a single-file query optimization that changes only the method body internals without altering any public API contract, dependencies, or configuration."}

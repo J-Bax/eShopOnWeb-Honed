@@ -7,4 +7,4 @@
 
 - [x] **#1** `src/PublicApi/CatalogBrandEndpoints/CatalogBrandListEndpoint.cs` — Cache static catalog brands in memory *(experiment 4 — stale)*
 - [x] **#2** `src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs` — Cache static catalog types in memory *(experiment 5 — improved)*
-- [ ] **#3** `src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` — Replace CountAsync with AnyAsync for duplicate check
+- [ ] **#3** `src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` — Replace CountAsync with AnyAsync for duplicate check *(in progress)*
