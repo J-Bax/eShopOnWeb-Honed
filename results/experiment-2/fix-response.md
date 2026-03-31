@@ -1,3 +1,4 @@
+```csharp
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -70,3 +71,4 @@ public class CreateCatalogItemEndpoint : IEndpoint<IResult, CreateCatalogItemReq
         return Results.Created($"api/catalog-items/{dto.Id}", response);
     }
 }
+```

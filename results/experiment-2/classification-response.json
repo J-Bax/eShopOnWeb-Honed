@@ -1,0 +1,1 @@
+{"scope":"narrow","reasoning":"The redundant second DB round-trip (UpdateAsync after AddAsync) can be eliminated by setting the picture URI before calling AddAsync, all within the single HandleAsync method in this one file."}
