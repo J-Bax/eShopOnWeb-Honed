@@ -63,20 +63,15 @@ public class CatalogItemListPagedEndpoint : IEndpoint<IResult, ListPagedCatalogI
             totalItems = await itemRepository.CountAsync(filterSpec);
         }
 
-        response.CatalogItems.AddRange(items.Select(item => new CatalogItemDto
+        response.CatalogItems.AddRange(items.Select(_mapper.Map<CatalogItemDto>));
+        foreach (CatalogItemDto item in response.CatalogItems)
         {
-            Id = item.Id,
-            CatalogBrandId = item.CatalogBrandId,
-            CatalogTypeId = item.CatalogTypeId,
-            Description = item.Description,
-            Name = item.Name,
-            PictureUri = _uriComposer.ComposePicUri(item.PictureUri),
-            Price = item.Price
-        }));
+            item.PictureUri = _uriComposer.ComposePicUri(item.PictureUri);
+        }
 
         if (request.PageSize > 0)
         {
-            response.PageCount = (totalItems + request.PageSize - 1) / request.PageSize;
+            response.PageCount = int.Parse(Math.Ceiling((decimal)totalItems / request.PageSize).ToString());
         }
         else
         {

@@ -10,3 +10,4 @@
 | 4 | 2026-03-31 06:10 | `src/PublicApi/CatalogBrandEndpoints/CatalogBrandListEndpoint.cs` | Cache static catalog brands in memory | stale |
 | 5 | 2026-03-31 06:22 | `src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs` | Cache static catalog types in memory | improved |
 | 6 | 2026-03-31 06:34 | `src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` | Replace CountAsync with AnyAsync for duplicate check | stale |
+| 7 | 2026-03-31 06:48 | `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` | Eliminate AutoMapper overhead and inefficient PageCount calculation in list endpoint | stale |

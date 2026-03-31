@@ -1,0 +1,201 @@
+{
+    "root_group": {
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {
+            "setup": {
+                "path": "::setup",
+                "id": "5c0f8025f7e0b6654089e5b00e950f1a",
+                "groups": {},
+                "checks": {
+                        "auth 200": {
+                            "path": "::setup::auth 200",
+                            "id": "739fb15207d8222a116cd477eb8d845b",
+                            "passes": 1,
+                            "fails": 0,
+                            "name": "auth 200"
+                        }
+                    },
+                "name": "setup"
+            }
+        },
+        "checks": {
+            "catalog list 200": {
+                "name": "catalog list 200",
+                "path": "::catalog list 200",
+                "id": "aad072edee74164fc9b8c1524052d20b",
+                "passes": 2956,
+                "fails": 0
+            },
+            "catalog has items": {
+                "passes": 2956,
+                "fails": 0,
+                "name": "catalog has items",
+                "path": "::catalog has items",
+                "id": "04890e4ce7c22daebc8706c25f9ddc9f"
+            },
+            "item detail 200": {
+                "passes": 2956,
+                "fails": 0,
+                "name": "item detail 200",
+                "path": "::item detail 200",
+                "id": "7f5666810b13a32df7652f9277560526"
+            },
+            "brands 200": {
+                "name": "brands 200",
+                "path": "::brands 200",
+                "id": "5f8500be7d630320b5268a356b6b08f6",
+                "passes": 2956,
+                "fails": 0
+            },
+            "types 200": {
+                "name": "types 200",
+                "path": "::types 200",
+                "id": "593eae1d2a83c4fa30bdf56b6ece6f95",
+                "passes": 2956,
+                "fails": 0
+            },
+            "health 200": {
+                "name": "health 200",
+                "path": "::health 200",
+                "id": "8e4f90a842a57472549a6b2cf699032d",
+                "passes": 2956,
+                "fails": 0
+            },
+            "update 200": {
+                "fails": 0,
+                "name": "update 200",
+                "path": "::update 200",
+                "id": "7ea104c1961d25326c0409f06885ea15",
+                "passes": 2956
+            },
+            "create 201": {
+                "name": "create 201",
+                "path": "::create 201",
+                "id": "156654209db568811cc0f7da2d599478",
+                "passes": 2956,
+                "fails": 0
+            }
+        },
+        "name": "",
+        "path": ""
+    },
+    "metrics": {
+        "vus_max": {
+            "value": 50,
+            "min": 50,
+            "max": 50
+        },
+        "data_received": {
+            "rate": 187470.76048366952,
+            "count": 11285779
+        },
+        "http_req_tls_handshaking": {
+            "med": 0,
+            "max": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0,
+            "min": 0
+        },
+        "http_req_sending": {
+            "med": 0,
+            "max": 0.9404,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.006322041269994689,
+            "min": 0
+        },
+        "http_req_receiving": {
+            "min": 0,
+            "med": 0,
+            "max": 14.4126,
+            "p(90)": 0.8270199999999996,
+            "p(95)": 1.0237399999999999,
+            "avg": 0.2596223892137447
+        },
+        "checks": {
+            "passes": 23649,
+            "fails": 0,
+            "value": 1
+        },
+        "http_req_waiting": {
+            "avg": 0.5701669405112856,
+            "min": 0,
+            "med": 0.5166,
+            "max": 190.3245,
+            "p(90)": 1.1904799999999995,
+            "p(95)": 1.5552199999999992
+        },
+        "http_reqs": {
+            "count": 20693,
+            "rate": 343.7363470158838
+        },
+        "http_req_connecting": {
+            "min": 0,
+            "med": 0,
+            "max": 0.5387,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.00048608225003624414
+        },
+        "http_req_blocked": {
+            "p(95)": 0,
+            "avg": 0.002008418305707244,
+            "min": 0,
+            "med": 0,
+            "max": 2.6649,
+            "p(90)": 0
+        },
+        "http_req_duration": {
+            "avg": 0.836111370995025,
+            "min": 0,
+            "med": 0.7168,
+            "max": 191.6543,
+            "p(90)": 1.5947,
+            "p(95)": 1.83984,
+            "thresholds": {
+                "p(95)<2000": false
+            }
+        },
+        "http_req_duration{expected_response:true}": {
+            "avg": 0.836111370995025,
+            "min": 0,
+            "med": 0.7168,
+            "max": 191.6543,
+            "p(90)": 1.5947,
+            "p(95)": 1.83984
+        },
+        "iteration_duration": {
+            "med": 506.03409999999997,
+            "max": 643.0931,
+            "p(90)": 507.4549,
+            "p(95)": 508.06705,
+            "avg": 506.4281521650883,
+            "min": 500.4639
+        },
+        "vus": {
+            "value": 3,
+            "min": 1,
+            "max": 49
+        },
+        "data_sent": {
+            "count": 4402670,
+            "rate": 73133.79901012038
+        },
+        "iterations": {
+            "count": 2956,
+            "rate": 49.102819396846876
+        },
+        "http_req_failed": {
+            "fails": 20693,
+            "passes": 0,
+            "thresholds": {
+                "rate<0.05": false
+            },
+            "value": 0
+        }
+    },
+    "setup_data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluQG1pY3Jvc29mdC5jb20iLCJyb2xlIjoiQWRtaW5pc3RyYXRvcnMiLCJuYmYiOjE3NzQ5NjQ1ODUsImV4cCI6MTc3NTU2OTM4NSwiaWF0IjoxNzc0OTY0NTg1fQ.83x6XtzprBG_2T8g1o_5mj0cTQF5BkQQOnEs_Nt1zzE"
+    }
+}

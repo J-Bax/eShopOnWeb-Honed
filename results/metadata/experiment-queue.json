@@ -9,9 +9,9 @@
       "explanation": "Eliminate AutoMapper overhead and inefficient PageCount calculation in list endpoint",
       "scope": "narrow",
       "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-1.md",
-      "status": "in_progress",
-      "triedByExperiment": null,
-      "outcome": null
+      "status": "done",
+      "triedByExperiment": 7,
+      "outcome": "stale"
     },
     {
       "id": 2,

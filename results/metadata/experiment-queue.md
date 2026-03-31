@@ -5,6 +5,6 @@
 
 **Generated:** experiment 7 at 03/31/2026 06:36:52
 
-- [ ] **#1** `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` — Eliminate AutoMapper overhead and inefficient PageCount calculation in list endpoint *(in progress)*
+- [x] **#1** `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` — Eliminate AutoMapper overhead and inefficient PageCount calculation in list endpoint *(experiment 7 — stale)*
 - [ ] **#2** `src/ApplicationCore/Specifications/CatalogFilterPaginatedSpecification.cs` — Add AsNoTracking to read-only paginated catalog specification
 - [ ] **#3** `src/PublicApi/CatalogItemEndpoints/UpdateCatalogItemEndpoint.cs` — Skip redundant fetch in update by using direct entity attach pattern
