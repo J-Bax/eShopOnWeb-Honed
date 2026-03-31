@@ -1,3 +1,24 @@
+Apply this specific optimization to the file and return the complete new file content.
+
+## Target File
+src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs
+
+## Optimization to Apply
+Eliminate AutoMapper overhead and inefficient PageCount calculation in list endpoint
+
+## Root Cause Analysis
+
+# Root Cause Analysis — Experiment 7
+
+> Generated: 2026-03-31 06:37:12 | Classification: narrow — Eliminating AutoMapper overhead (manual mapping) and replacing the inefficient Math.Ceiling/ToString/int.Parse PageCount calculation with integer arithmetic are both implementation-internal changes confined to this single file's HandleAsync method body, with no API contract, dependency, or multi-file changes required.
+
+| Metric | Current | Baseline |
+|--------|---------|----------|
+| p95 Latency | 1.8235ms | 1014.90584ms |
+| Requests/sec | 341.7 | 114.9 |
+| Error Rate | 0% | 0% |
+
+---
 # Eliminate AutoMapper overhead and inefficient PageCount calculation in list endpoint
 
 > **File:** `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` | **Scope:** narrow
@@ -37,3 +58,10 @@ The runtime counters show **5.9M Gen2 collections**, indicating significant GC p
 - p95 latency: reduction of ~0.05-0.15ms per request due to fewer allocations and no AutoMapper overhead
 - GC pressure: measurable reduction in Gen2 collections from eliminating per-request string and AutoMapper allocations
 - Overall p95 improvement: ~1-2%
+
+
+
+
+Read the file at the path above (relative to the eShopOnWeb root), apply ONLY the
+optimization described, and return the COMPLETE new file in a fenced code block.
+No explanation, no commentary — just the code block.
