@@ -260,6 +260,7 @@ pub/
 .devcontainer
 
 .azure
+.hone-assessment.json
 
 # ── Hone Optimization Results ────────────────────────────────────
 # Commit analysis artifacts (compact, useful for PR reviews).

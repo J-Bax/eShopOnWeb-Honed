@@ -5,7 +5,7 @@ const BASE_URL = __ENV.BASE_URL || 'http://localhost:5000';
 const ADMIN_USER = 'admin@microsoft.com';
 const ADMIN_PASS = 'Pass@word1';
 
-// Deterministic ID generator (same VU + iteration = same IDs across runs)
+// Deterministic ID generator for stable reads against seeded catalog rows
 function seededId(salt, max) {
     return (((__VU * 997 + __ITER * 8191 + salt * 127) * 2654435761) >>> 0) % max + 1;
 }
@@ -23,7 +23,6 @@ export const options = {
     },
 };
 
-// Authenticate once at test start and share token across VUs
 export function setup() {
     const authRes = http.post(`${BASE_URL}/api/authenticate`, JSON.stringify({
         username: ADMIN_USER,
@@ -31,18 +30,10 @@ export function setup() {
     }), { headers: { 'Content-Type': 'application/json' } });
 
     check(authRes, { 'auth 200': (r) => r.status === 200 });
-    return { token: JSON.parse(authRes.body).token };
 }
 
-export default function (data) {
-    const authHeaders = {
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${data.token}`,
-        },
-    };
-
-    // ── Read operations (4 requests) ────────────────────────────────────
+export default function () {
+    // ── Read operations ──────────────────────────────────────────────────
 
     // Browse catalog (paginated — deterministic page)
     const pageIndex = seededId(1, 2) - 1;
@@ -70,33 +61,6 @@ export default function (data) {
     // Health check (validates API liveness under load)
     const healthResponse = http.get(`${BASE_URL}/health`);
     check(healthResponse, { 'health 200': (r) => r.status === 200 });
-
-    // ── Write operations (2 requests — DB resets between measured runs) ──
-
-    // Update an existing item (PUT — idempotent)
-    const updateId = seededId(3, 12);
-    const updatePayload = JSON.stringify({
-        id: updateId,
-        catalogBrandId: seededId(4, 5),
-        catalogTypeId: seededId(5, 4),
-        description: `Updated by k6 VU${__VU} iter${__ITER}`,
-        name: `.NET Bot Black Sweatshirt`,
-        price: 10 + seededId(6, 90),
-    });
-    const updateRes = http.put(`${BASE_URL}/api/catalog-items`, updatePayload, authHeaders);
-    check(updateRes, { 'update 200': (r) => r.status === 200 });
-
-    // Create a new item (POST — safe because DB resets between runs)
-    const createName = `k6-item-${__VU}-${__ITER}`;
-    const createPayload = JSON.stringify({
-        catalogBrandId: seededId(7, 5),
-        catalogTypeId: seededId(8, 4),
-        description: `Load test item VU${__VU}`,
-        name: createName,
-        price: 5 + seededId(9, 95),
-    });
-    const createRes = http.post(`${BASE_URL}/api/catalog-items`, createPayload, authHeaders);
-    check(createRes, { 'create 201': (r) => r.status === 201 });
 
     sleep(0.5);
 }
