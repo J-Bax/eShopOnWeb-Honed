@@ -12,7 +12,7 @@
     Root directory of the target project (the eShopOnWeb checkout).
 
 .PARAMETER Config
-    Parsed .hone/config.psd1 hashtable.
+    Parsed Hone target config hashtable when the caller provides one.
 
 .PARAMETER BaseUrl
     The base URL where the API will be started (unused by this hook).
@@ -22,15 +22,19 @@
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)]
     [string]$TargetPath,
 
-    [Parameter(Mandatory)]
     [hashtable]$Config,
 
     [string]$BaseUrl,
     [int]$Experiment = 0
 )
+
+# When invoked by the C# harness, CWD is the target root and no params are passed.
+# Default TargetPath to the target root (two levels up from .hone\hooks\).
+if (-not $TargetPath) {
+    $TargetPath = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+}
 
 $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 $droppedDbs = @()

@@ -5,9 +5,13 @@ const BASE_URL = __ENV.BASE_URL || 'http://localhost:5000';
 const ADMIN_USER = 'admin@microsoft.com';
 const ADMIN_PASS = 'Pass@word1';
 
-// Deterministic ID generator (same VU + iteration = same IDs across runs)
+// Deterministic ID generator for stable reads/updates against seeded catalog rows
 function seededId(salt, max) {
     return (((__VU * 997 + __ITER * 8191 + salt * 127) * 2654435761) >>> 0) % max + 1;
+}
+
+function uniqueName(prefix) {
+    return `${prefix}-${Date.now().toString(36)}-${__VU}-${__ITER}`;
 }
 
 export const options = {
@@ -42,7 +46,7 @@ export default function (data) {
     };
 
     // 1. Create a catalog item (POST)
-    const createName = `k6-catalog-${__VU}-${__ITER}`;
+    const createName = uniqueName('k6-catalog');
     const createPayload = JSON.stringify({
         catalogBrandId: seededId(1, 5),
         catalogTypeId: seededId(2, 4),
