@@ -1,21 +1,24 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
-
-const BASE_URL = __ENV.BASE_URL || 'http://localhost:5000';
-const ADMIN_USER = 'admin@microsoft.com';
-const ADMIN_PASS = 'Pass@word1';
-
-// Deterministic ID generator for stable reads against seeded catalog rows
-function seededId(salt, max) {
-    return (((__VU * 997 + __ITER * 8191 + salt * 127) * 2654435761) >>> 0) % max + 1;
-}
+import {
+    BASE_URL,
+    authHeaders,
+    authenticateAdmin,
+    buildCatalogItemPayload,
+    buildCatalogUpdatePayload,
+    cleanupRun,
+    prepareRun,
+    safeJson,
+    seededCatalogItemId,
+    seededIndex,
+} from './helpers.js';
 
 export const options = {
     stages: [
-        { duration: '10s', target: 10 },
-        { duration: '20s', target: 30 },
-        { duration: '20s', target: 50 },
-        { duration: '10s', target: 0 },
+        { duration: '15s', target: 4 },
+        { duration: '30s', target: 8 },
+        { duration: '30s', target: 12 },
+        { duration: '15s', target: 0 },
     ],
     thresholds: {
         http_req_duration: ['p(95)<2000'],
@@ -24,43 +27,81 @@ export const options = {
 };
 
 export function setup() {
-    const authRes = http.post(`${BASE_URL}/api/authenticate`, JSON.stringify({
-        username: ADMIN_USER,
-        password: ADMIN_PASS,
-    }), { headers: { 'Content-Type': 'application/json' } });
-
-    check(authRes, { 'auth 200': (r) => r.status === 200 });
+    return prepareRun('baseline');
 }
 
-export default function () {
-    // ── Read operations ──────────────────────────────────────────────────
+export function teardown(data) {
+    cleanupRun(data);
+}
 
-    // Browse catalog (paginated — deterministic page)
-    const pageIndex = seededId(1, 2) - 1;
-    const catalogPage = http.get(
-        `${BASE_URL}/api/catalog-items?pageSize=10&pageIndex=${pageIndex}`
-    );
-    check(catalogPage, {
-        'catalog list 200': (r) => r.status === 200,
-        'catalog has items': (r) => JSON.parse(r.body).catalogItems.length > 0,
+export default function (data) {
+    const authorizedJson = authHeaders(authenticateAdmin());
+    const pageIndex = seededIndex(1, 2);
+    const itemId = seededCatalogItemId(data, 2);
+
+    sleep(0.2);
+
+    const [listRes, brandsRes, typesRes] = http.batch([
+        ['GET', `${BASE_URL}/api/catalog-items?pageSize=8&pageIndex=${pageIndex}`],
+        ['GET', `${BASE_URL}/api/catalog-brands`],
+        ['GET', `${BASE_URL}/api/catalog-types`],
+    ]);
+    check(listRes, {
+        'baseline list 200': (r) => r.status === 200,
+        'baseline list has items': (r) => {
+            const body = safeJson(r);
+            return body !== null && Array.isArray(body.catalogItems) && body.catalogItems.length > 0;
+        },
+    });
+    check(brandsRes, { 'baseline brands 200': (r) => r.status === 200 });
+    check(typesRes, { 'baseline types 200': (r) => r.status === 200 });
+
+    sleep(0.2);
+
+    const detailRes = http.get(`${BASE_URL}/api/catalog-items/${itemId}`);
+    check(detailRes, { 'baseline detail 200': (r) => r.status === 200 });
+
+    sleep(0.2);
+
+    const createPayload = buildCatalogItemPayload(data, 3, 'baseline-item');
+    const createRes = http.post(`${BASE_URL}/api/catalog-items`, JSON.stringify(createPayload), authorizedJson);
+    const createBody = safeJson(createRes);
+    check(createRes, {
+        'baseline create 201': (r) => r.status === 201,
+        'baseline create tagged': () => createBody !== null && createBody.catalogItem && createBody.catalogItem.name.includes(data.runTag),
     });
 
-    // Get a specific item (deterministic ID from seed data)
-    const itemId = seededId(2, 12);
-    const itemResponse = http.get(`${BASE_URL}/api/catalog-items/${itemId}`);
-    check(itemResponse, { 'item detail 200': (r) => r.status === 200 });
+    let createdId = null;
+    if (createBody !== null && createBody.catalogItem) {
+        createdId = createBody.catalogItem.id;
+        const getCreatedRes = http.get(`${BASE_URL}/api/catalog-items/${createdId}`);
+        check(getCreatedRes, { 'baseline get created 200': (r) => r.status === 200 });
+    }
 
-    // Browse brands
-    const brandsResponse = http.get(`${BASE_URL}/api/catalog-brands`);
-    check(brandsResponse, { 'brands 200': (r) => r.status === 200 });
+    sleep(0.2);
 
-    // Browse types
-    const typesResponse = http.get(`${BASE_URL}/api/catalog-types`);
-    check(typesResponse, { 'types 200': (r) => r.status === 200 });
+    if (createdId) {
+        const updatePayload = buildCatalogUpdatePayload(data, createdId, 5, 'baseline-item');
+        const updateRes = http.put(`${BASE_URL}/api/catalog-items`, JSON.stringify(updatePayload), authorizedJson);
+        const updateBody = safeJson(updateRes);
+        check(updateRes, {
+            'baseline update 200': (r) => r.status === 200,
+            'baseline update tagged': () => updateBody !== null && updateBody.catalogItem && updateBody.catalogItem.name.includes(data.runTag),
+        });
 
-    // Health check (validates API liveness under load)
-    const healthResponse = http.get(`${BASE_URL}/health`);
-    check(healthResponse, { 'health 200': (r) => r.status === 200 });
+        const rereadRes = http.get(`${BASE_URL}/api/catalog-items/${createdId}`);
+        check(rereadRes, { 'baseline reread 200': (r) => r.status === 200 });
+    }
 
-    sleep(0.5);
+    sleep(0.2);
+
+    if (createdId) {
+        const deleteRes = http.del(`${BASE_URL}/api/catalog-items/${createdId}`, null, authorizedJson);
+        check(deleteRes, { 'baseline delete 200': (r) => r.status === 200 });
+
+        const deletedRes = http.get(`${BASE_URL}/api/catalog-items/${createdId}`);
+        check(deletedRes, { 'baseline deleted 404': (r) => r.status === 404 });
+    }
+
+    sleep(0.35);
 }
