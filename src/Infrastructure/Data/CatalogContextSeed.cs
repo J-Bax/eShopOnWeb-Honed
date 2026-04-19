@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.eShopWeb.ApplicationCore.Entities;
@@ -9,6 +10,37 @@ namespace Microsoft.eShopWeb.Infrastructure.Data;
 
 public class CatalogContextSeed
 {
+    public static IReadOnlyList<SeededCatalogItemSnapshot> CanonicalCatalogItems { get; } = new[]
+    {
+        new SeededCatalogItemSnapshot(1, 2, 2, ".NET Bot Black Sweatshirt", ".NET Bot Black Sweatshirt", 19.5M, "http://catalogbaseurltobereplaced/images/products/1.png"),
+        new SeededCatalogItemSnapshot(2, 1, 2, ".NET Black & White Mug", ".NET Black & White Mug", 8.50M, "http://catalogbaseurltobereplaced/images/products/2.png"),
+        new SeededCatalogItemSnapshot(3, 2, 5, "Prism White T-Shirt", "Prism White T-Shirt", 12M, "http://catalogbaseurltobereplaced/images/products/3.png"),
+        new SeededCatalogItemSnapshot(4, 2, 2, ".NET Foundation Sweatshirt", ".NET Foundation Sweatshirt", 12M, "http://catalogbaseurltobereplaced/images/products/4.png"),
+        new SeededCatalogItemSnapshot(5, 3, 5, "Roslyn Red Sheet", "Roslyn Red Sheet", 8.5M, "http://catalogbaseurltobereplaced/images/products/5.png"),
+        new SeededCatalogItemSnapshot(6, 2, 2, ".NET Blue Sweatshirt", ".NET Blue Sweatshirt", 12M, "http://catalogbaseurltobereplaced/images/products/6.png"),
+        new SeededCatalogItemSnapshot(7, 2, 5, "Roslyn Red T-Shirt", "Roslyn Red T-Shirt", 12M, "http://catalogbaseurltobereplaced/images/products/7.png"),
+        new SeededCatalogItemSnapshot(8, 2, 5, "Kudu Purple Sweatshirt", "Kudu Purple Sweatshirt", 8.5M, "http://catalogbaseurltobereplaced/images/products/8.png"),
+        new SeededCatalogItemSnapshot(9, 1, 5, "Cup<T> White Mug", "Cup<T> White Mug", 12M, "http://catalogbaseurltobereplaced/images/products/9.png"),
+        new SeededCatalogItemSnapshot(10, 3, 2, ".NET Foundation Sheet", ".NET Foundation Sheet", 12M, "http://catalogbaseurltobereplaced/images/products/10.png"),
+        new SeededCatalogItemSnapshot(11, 3, 2, "Cup<T> Sheet", "Cup<T> Sheet", 8.5M, "http://catalogbaseurltobereplaced/images/products/11.png"),
+        new SeededCatalogItemSnapshot(12, 2, 5, "Prism White TShirt", "Prism White TShirt", 12M, "http://catalogbaseurltobereplaced/images/products/12.png")
+    };
+
+    public sealed record SeededCatalogItemSnapshot(
+        int Id,
+        int CatalogTypeId,
+        int CatalogBrandId,
+        string Description,
+        string Name,
+        decimal Price,
+        string PictureUri)
+    {
+        public CatalogItem ToEntity()
+        {
+            return new CatalogItem(CatalogTypeId, CatalogBrandId, Description, Name, Price, PictureUri);
+        }
+    }
+
     public static async Task SeedAsync(CatalogContext catalogContext,
         ILogger logger,
         int retry = 0)
@@ -82,20 +114,6 @@ public class CatalogContextSeed
 
     static IEnumerable<CatalogItem> GetPreconfiguredItems()
     {
-        return new List<CatalogItem>
-            {
-                new(2,2, ".NET Bot Black Sweatshirt", ".NET Bot Black Sweatshirt", 19.5M,  "http://catalogbaseurltobereplaced/images/products/1.png"),
-                new(1,2, ".NET Black & White Mug", ".NET Black & White Mug", 8.50M, "http://catalogbaseurltobereplaced/images/products/2.png"),
-                new(2,5, "Prism White T-Shirt", "Prism White T-Shirt", 12,  "http://catalogbaseurltobereplaced/images/products/3.png"),
-                new(2,2, ".NET Foundation Sweatshirt", ".NET Foundation Sweatshirt", 12, "http://catalogbaseurltobereplaced/images/products/4.png"),
-                new(3,5, "Roslyn Red Sheet", "Roslyn Red Sheet", 8.5M, "http://catalogbaseurltobereplaced/images/products/5.png"),
-                new(2,2, ".NET Blue Sweatshirt", ".NET Blue Sweatshirt", 12, "http://catalogbaseurltobereplaced/images/products/6.png"),
-                new(2,5, "Roslyn Red T-Shirt", "Roslyn Red T-Shirt",  12, "http://catalogbaseurltobereplaced/images/products/7.png"),
-                new(2,5, "Kudu Purple Sweatshirt", "Kudu Purple Sweatshirt", 8.5M, "http://catalogbaseurltobereplaced/images/products/8.png"),
-                new(1,5, "Cup<T> White Mug", "Cup<T> White Mug", 12, "http://catalogbaseurltobereplaced/images/products/9.png"),
-                new(3,2, ".NET Foundation Sheet", ".NET Foundation Sheet", 12, "http://catalogbaseurltobereplaced/images/products/10.png"),
-                new(3,2, "Cup<T> Sheet", "Cup<T> Sheet", 8.5M, "http://catalogbaseurltobereplaced/images/products/11.png"),
-                new(2,5, "Prism White TShirt", "Prism White TShirt", 12, "http://catalogbaseurltobereplaced/images/products/12.png")
-            };
+        return CanonicalCatalogItems.Select(item => item.ToEntity()).ToList();
     }
 }

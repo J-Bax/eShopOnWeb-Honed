@@ -1,13 +1,11 @@
-import http from 'k6/http';
 import { check, sleep } from 'k6';
-
-const BASE_URL = __ENV.BASE_URL || 'http://localhost:5000';
+import { ADMIN_USER, DEFAULT_PASSWORD, DEMO_USER, authenticate } from './helpers.js';
 
 export const options = {
     stages: [
-        { duration: '10s', target: 10 },
-        { duration: '20s', target: 30 },
-        { duration: '20s', target: 50 },
+        { duration: '10s', target: 15 },
+        { duration: '20s', target: 40 },
+        { duration: '20s', target: 70 },
         { duration: '10s', target: 0 },
     ],
     thresholds: {
@@ -17,37 +15,23 @@ export const options = {
 };
 
 export default function () {
-    const jsonHeaders = { headers: { 'Content-Type': 'application/json' } };
-
-    // 1. Admin login (valid credentials)
-    const adminRes = http.post(`${BASE_URL}/api/authenticate`, JSON.stringify({
-        username: 'admin@microsoft.com',
-        password: 'Pass@word1',
-    }), jsonHeaders);
-    check(adminRes, {
+    const adminRes = authenticate(ADMIN_USER, DEFAULT_PASSWORD);
+    check(adminRes.response, {
         'admin auth 200': (r) => r.status === 200,
-        'admin has token': (r) => JSON.parse(r.body).result === true,
+        'admin has token': () => adminRes.body !== null && adminRes.body.result === true && typeof adminRes.body.token === 'string',
     });
 
-    // 2. Normal user login (valid credentials)
-    const userRes = http.post(`${BASE_URL}/api/authenticate`, JSON.stringify({
-        username: 'demouser@microsoft.com',
-        password: 'Pass@word1',
-    }), jsonHeaders);
-    check(userRes, {
+    const userRes = authenticate(DEMO_USER, DEFAULT_PASSWORD);
+    check(userRes.response, {
         'user auth 200': (r) => r.status === 200,
-        'user has token': (r) => JSON.parse(r.body).result === true,
+        'user has token': () => userRes.body !== null && userRes.body.result === true && typeof userRes.body.token === 'string',
     });
 
-    // 3. Invalid credentials (expected failure)
-    const badRes = http.post(`${BASE_URL}/api/authenticate`, JSON.stringify({
-        username: 'admin@microsoft.com',
-        password: 'wrong-password',
-    }), jsonHeaders);
-    check(badRes, {
+    const badRes = authenticate(ADMIN_USER, 'wrong-password');
+    check(badRes.response, {
         'bad auth 200': (r) => r.status === 200,
-        'bad auth rejected': (r) => JSON.parse(r.body).result === false,
+        'bad auth rejected': () => badRes.body !== null && badRes.body.result === false,
     });
 
-    sleep(0.3);
+    sleep(0.2);
 }

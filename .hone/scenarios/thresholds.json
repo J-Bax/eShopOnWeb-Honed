@@ -1,7 +1,7 @@
 {
     "scenarios": {
         "baseline": {
-            "description": "Read workload: staged 10-50 VUs across all catalog read endpoints + health",
+            "description": "Mixed admin catalog journey: auth, browse, create/update/delete with per-run cleanup",
             "file": "baseline.js",
             "use_for_optimization": true,
             "thresholds": {
@@ -10,25 +10,25 @@
             }
         },
         "stress": {
-            "description": "Breaking-point: staged 10-200 VUs, all endpoints including auth and writes",
+            "description": "Read-heavy browse stress: staged catalog list/detail/brands/types/health with per-run canonical catalog state",
             "file": "stress.js",
             "use_for_optimization": false,
             "thresholds": {
                 "http_req_duration_p95_ms": 2000,
-                "http_req_failed_rate": 0.10
+                "http_req_failed_rate": 0.05
             }
         },
         "stress-catalog": {
-            "description": "Catalog CRUD lifecycle: auth, create, read, update, delete, browse",
+            "description": "Admin catalog CRUD stress: per-run prepare/auth plus create/read/update/delete and browse",
             "file": "stress-catalog.js",
             "use_for_optimization": false,
             "thresholds": {
                 "http_req_duration_p95_ms": 2000,
-                "http_req_failed_rate": 0.10
+                "http_req_failed_rate": 0.05
             }
         },
         "stress-auth": {
-            "description": "Authentication load: admin login, user login, invalid credentials",
+            "description": "Authentication stress story: admin login, demo-user login, and rejected credentials without catalog mutation",
             "file": "stress-auth.js",
             "use_for_optimization": false,
             "thresholds": {
@@ -37,7 +37,7 @@
             }
         },
         "warmup": {
-            "description": "JIT/EF primer: 5 VUs for 10s, lightweight reads + one auth",
+            "description": "Warmup primer: lightweight catalog reads plus one auth; per-run state reset stays in diag setup/teardown for measured scenarios",
             "file": "warmup.js",
             "use_for_optimization": false,
             "thresholds": {}

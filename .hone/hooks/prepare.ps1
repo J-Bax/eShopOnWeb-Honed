@@ -1,12 +1,13 @@
 <#
 .SYNOPSIS
-    Resets both eShopOnWeb databases to ensure clean state between experiments.
+    Resets the catalog database before a baseline or experiment starts.
 
 .DESCRIPTION
-    Drops the CatalogDb and Identity databases so that the next API startup
-    recreates them from scratch with fresh seed data.
-    This ensures every experiment starts with identical data for fair
-    performance comparisons.
+    Drops CatalogDb so that the next API startup recreates it from scratch
+    with fresh seed data.
+    This is Hone's pre-experiment reset step. Per-measured-run setup and
+    cleanup happen inside the k6 scenarios through their setup()/teardown()
+    hooks plus the target's /diag/k6 endpoints.
 
 .PARAMETER TargetPath
     Root directory of the target project (the eShopOnWeb checkout).
@@ -72,9 +73,9 @@ try {
 
     # -- Parse connection strings --------------------------------------------------
     $appSettings = Get-Content $appSettingsPath -Raw | ConvertFrom-Json
-    # Only reset CatalogDb — Identity DB has static seed data (admin + demo
-    # users) and doesn't accumulate test data between runs. Dropping it would
-    # invalidate JWT tokens held by running k6 VUs.
+    # Only reset CatalogDb. Identity keeps the stable admin/demo users used by
+    # the k6 scenarios, and per-run catalog cleanup is handled through the
+    # target-side diagnostics endpoints instead of dropping Identity.
     $connectionNames = @('CatalogConnection')
 
     foreach ($connName in $connectionNames) {
