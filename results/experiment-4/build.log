@@ -1,0 +1,22 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  BlazorShared -> C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\src\BlazorShared\bin\Release\net8.0\BlazorShared.dll
+  ApplicationCore -> C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\src\ApplicationCore\bin\Release\net8.0\ApplicationCore.dll
+  Infrastructure -> C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\src\Infrastructure\bin\Release\net8.0\Infrastructure.dll
+  PublicApi -> C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\src\PublicApi\bin\Release\net8.0\PublicApi.dll
+  BlazorAdmin -> C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\src\BlazorAdmin\bin\Release\net8.0\BlazorAdmin.dll
+  BlazorAdmin (Blazor output) -> C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\src\BlazorAdmin\bin\Release\net8.0\wwwroot
+  
+  Bundler: Begin processing bundleconfig.json
+  Bundler: Done processing bundleconfig.json
+  Web -> C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\src\Web\bin\Release\net8.0\Web.dll
+  PublicApiIntegrationTests -> C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\PublicApiIntegrationTests\bin\Release\net8.0\PublicApiIntegrationTests.dll
+  FunctionalTests -> C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\FunctionalTests\bin\Release\net8.0\FunctionalTests.dll
+  UnitTests -> C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\UnitTests\bin\Release\net8.0\UnitTests.dll
+  IntegrationTests -> C:\Projects\Hone-Group\OptimizationTargets\eShopOnWeb-Honed\tests\IntegrationTests\bin\Release\net8.0\IntegrationTests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:08.66

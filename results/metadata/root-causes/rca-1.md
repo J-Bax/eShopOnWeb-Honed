@@ -1,33 +1,38 @@
-﻿# Eliminate redundant second DB round-trip in catalog item creation
+﻿# Add memory cache to CatalogTypeListEndpoint
 
-> **File:** `src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` | **Scope:** narrow
+> **File:** `src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs` | **Scope:** narrow
 
 ## Evidence
 
-At `CreateCatalogItemEndpoint.cs:50-61`, the create flow performs two sequential database writes:
+At `CatalogTypeListEndpoint.cs:40`, every request hits the database:
 
 ```csharp
-newItem = await itemRepository.AddAsync(newItem);        // line 51 – INSERT
+var items = await catalogTypeRepository.ListAsync();
+```
 
-if (newItem.Id != 0)
+Meanwhile, the sibling `CatalogBrandListEndpoint.cs:48-52` already uses `IMemoryCache` with a 30-second TTL:
+
+```csharp
+if (!_cache.TryGetValue(CacheKey, out List<CatalogBrandDto>? cachedBrands) || cachedBrands == null)
 {
-    newItem.UpdatePictureUri("eCatalog-item-default.png"); // line 59
-    await itemRepository.UpdateAsync(newItem);              // line 60 – UPDATE
+    var items = await catalogBrandRepository.ListAsync();
+    cachedBrands = items.Select(_mapper.Map<CatalogBrandDto>).ToList();
+    _cache.Set(CacheKey, cachedBrands, CacheTtl);
 }
 ```
 
-The item is first inserted, then immediately updated to set a default picture URI. This is two round-trips to the database for every create request.
+Catalog types are static reference data that rarely changes, yet every k6 iteration issues a `GET /api/catalog-types` request (part of the batched trio), accounting for ~10% of all traffic. Each call allocates a new list and round-trips through EF Core.
 
 ## Theory
 
-Every POST to `/api/catalog-items` issues an INSERT followed by an UPDATE, doubling the write load on the database. Under concurrent load (up to 12 VUs), this doubles lock contention on the Catalog table and doubles the latency of the create path. Since create is ~10% of all requests and is a prerequisite for the subsequent GET, PUT, and DELETE operations in the test scenario, any slowdown or failure here cascades: if a create times out or deadlocks, the dependent update/delete checks also fail, contributing to the 16.65% error rate.
+Under load (up to 12 concurrent VUs), every VU iteration fires a catalog-types query. With no caching, this creates 12 concurrent DB queries per second for data that never changes during the test. This adds unnecessary EF Core overhead (query compilation, materialization, allocations) and contention on the DbContext/connection pool. The brands endpoint already avoids this with caching.
 
 ## Proposed Fixes
 
-1. **Set picture URI before insert:** Call `UpdatePictureUri("eCatalog-item-default.png")` on the `newItem` object *before* calling `AddAsync`, then remove the conditional `UpdateAsync` block entirely. This reduces two DB calls to one. The change is at lines 50-61 of `CreateCatalogItemEndpoint.cs`.
+1. **Add IMemoryCache to CatalogTypeListEndpoint:** Inject `IMemoryCache` (already registered in `Program.cs:55`) and cache the mapped `List<CatalogTypeDto>` with a 30-second TTL, mirroring the pattern in `CatalogBrandListEndpoint`.
 
 ## Expected Impact
 
-- p95 latency: ~3-5ms reduction on create requests by eliminating one DB round-trip
-- Error rate: Reduced lock contention should lower timeout/deadlock-driven errors
-- Overall p95 improvement: ~3-5% considering create is ~10% of traffic but cascading failures affect ~30% of downstream requests
+- p95 latency: ~2-4ms reduction on catalog-type requests
+- Eliminates ~10% of DB queries under load
+- Reduces EF Core allocations and connection pool pressure

@@ -1,32 +1,36 @@
-﻿# Eliminate redundant count query in paginated catalog listing
+﻿# Optimize duplicate name check in create endpoint
 
-> **File:** `src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` | **Scope:** narrow
+> **File:** `src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` | **Scope:** narrow
 
 ## Evidence
 
-At `CatalogItemListPagedEndpoint.cs:44-53`, the list endpoint executes two separate database queries:
+At `CreateCatalogItemEndpoint.cs:43-48`, every create request performs a duplicate name check:
 
 ```csharp
-var filterSpec = new CatalogFilterSpecification(request.CatalogBrandId, request.CatalogTypeId);
-int totalItems = await itemRepository.CountAsync(filterSpec);   // line 45 – query 1
-
-var pagedSpec = new CatalogFilterPaginatedSpecification(...);
-var items = await itemRepository.ListAsync(pagedSpec);           // line 53 – query 2
+var catalogItemNameSpecification = new CatalogItemNameSpecification(request.Name);
+var existingCataloogItem = await itemRepository.CountAsync(catalogItemNameSpecification);
+if (existingCataloogItem > 0)
+{
+    throw new DuplicateException($"A catalogItem with name {request.Name} already exists");
+}
 ```
 
-The `CatalogFilterSpecification` (at `CatalogFilterSpecification.cs:10-11`) applies the same WHERE clause as `CatalogFilterPaginatedSpecification` (at `CatalogFilterPaginatedSpecification.cs:16-17`) but without Skip/Take. Both specs filter on the same `brandId`/`typeId` criteria, resulting in two sequential DB round-trips.
+This `CountAsync` scans the Catalog table filtering by `Name` (see `CatalogItemNameSpecification.cs:9`: `Query.Where(item => catalogItemName == item.Name)`). The Name column has no unique index configured in `CatalogItemConfiguration.cs`. Under concurrent load, multiple VUs may create items with colliding names, triggering `DuplicateException` which flows through `ExceptionMiddleware.cs:35-43` returning HTTP 409.
+
+The 16.65% error rate strongly suggests name collisions are occurring frequently under concurrent k6 load.
 
 ## Theory
 
-The list endpoint is called on every k6 iteration (~10% of traffic). Two sequential queries double the DB interaction time for this endpoint. Since the k6 test passes no `brandId` or `typeId` filters, both queries scan the full Catalog table. The count query is used solely to compute `PageCount` at line 63, which could be derived from a single query or deferred. Under concurrent load, this doubles connection hold time for list requests.
+The `CountAsync` query scans all catalog items by name without index support. Under concurrency, race conditions between the check and the insert allow duplicates anyway (TOCTOU), while also causing spurious 409 errors when two VUs generate the same name seed. The exception-throwing path is expensive (stack trace capture, middleware handling). Using `AnyAsync` instead of `CountAsync` would short-circuit after finding the first match rather than counting all matches.
 
 ## Proposed Fixes
 
-1. **Use Ardalis.Specification count on the paginated spec:** Add `.Query.EnableCount()` to `CatalogFilterPaginatedSpecification` and use the repository's `CountAsync` on the same specification, or restructure to get count from the same query. Alternatively, compute `PageCount` from the returned items count and skip/take values when possible.
+1. **Replace `CountAsync` with `FirstOrDefaultAsync` or `AnyAsync`:** Instead of counting all matching items, check existence with `AnyAsync` which can short-circuit after the first match. This is semantically equivalent but faster.
 
-2. **Parallelize with Task.WhenAll:** If two queries are kept, execute `CountAsync` and `ListAsync` concurrently using `Task.WhenAll` instead of sequentially. This requires separate DbContext instances (scoped repository per query) or a simpler approach of just removing the count query.
+2. **Add a HasIndex on Name in CatalogItemConfiguration:** Add `builder.HasIndex(ci => ci.Name)` in `CatalogItemConfiguration.cs` to speed up the name lookup. This helps both the duplicate check and any future name-based queries.
 
 ## Expected Impact
 
-- p95 latency: ~3-5ms reduction on list requests by eliminating one DB round-trip
-- Overall p95 improvement: ~1.5-2% from the ~10% traffic share of list requests
+- p95 latency: ~1-2ms reduction per create request
+- May slightly reduce error rate if query returns faster and narrows the race window
+- The error rate improvement would be the bigger win if it prevents some 409s

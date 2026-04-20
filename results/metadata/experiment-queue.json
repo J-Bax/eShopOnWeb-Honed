@@ -1,34 +1,34 @@
 ﻿{
-  "generatedByExperiment": 1,
-  "generatedAt": "2026-04-20T07:53:19.0134909+00:00",
+  "generatedByExperiment": 4,
+  "generatedAt": "2026-04-20T08:24:30.2496642+00:00",
   "items": [
     {
       "id": "1",
-      "filePath": "src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs",
-      "title": "Eliminate redundant second DB round-trip in catalog item creation",
-      "explanation": "Eliminate redundant second DB round-trip in catalog item creation",
+      "filePath": "src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs",
+      "title": "Add memory cache to CatalogTypeListEndpoint",
+      "explanation": "Add memory cache to CatalogTypeListEndpoint",
       "scope": "narrow",
       "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-1.md",
-      "status": "done",
-      "triedByExperiment": 1,
-      "outcome": "improved"
-    },
-    {
-      "id": "2",
-      "filePath": "src/PublicApi/CatalogBrandEndpoints/CatalogBrandListEndpoint.cs",
-      "title": "Cache static catalog brands to eliminate repeated DB queries",
-      "explanation": "Cache static catalog brands to eliminate repeated DB queries",
-      "scope": "narrow",
-      "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-2.md",
       "status": "in_progress",
       "triedByExperiment": null,
       "outcome": null
     },
     {
-      "id": "3",
+      "id": "2",
       "filePath": "src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs",
-      "title": "Eliminate redundant count query in paginated catalog listing",
-      "explanation": "Eliminate redundant count query in paginated catalog listing",
+      "title": "Eliminate redundant count query in paged listing",
+      "explanation": "Eliminate redundant count query in paged listing",
+      "scope": "narrow",
+      "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-2.md",
+      "status": "pending",
+      "triedByExperiment": null,
+      "outcome": null
+    },
+    {
+      "id": "3",
+      "filePath": "src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs",
+      "title": "Optimize duplicate name check in create endpoint",
+      "explanation": "Optimize duplicate name check in create endpoint",
       "scope": "narrow",
       "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-3.md",
       "status": "pending",
