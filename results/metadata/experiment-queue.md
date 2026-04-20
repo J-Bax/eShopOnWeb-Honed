@@ -5,6 +5,6 @@
 
 **Generated:** experiment 4 at 2026-04-20T08:24:30.2496642+00:00
 
-- [ ] **#1**`src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs` — Add memory cache to CatalogTypeListEndpoint *(in progress)*
-- [ ] **#2**`src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` — Eliminate redundant count query in paged listing
+- [x] **#1**`src/PublicApi/CatalogTypeEndpoints/CatalogTypeListEndpoint.cs` — Add memory cache to CatalogTypeListEndpoint *(experiment 4 — improved)*
+- [ ] **#2**`src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` — Eliminate redundant count query in paged listing *(in progress)*
 - [ ] **#3**`src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` — Optimize duplicate name check in create endpoint

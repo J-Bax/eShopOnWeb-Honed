@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -41,18 +40,19 @@ public class CatalogItemListPagedEndpoint : IEndpoint<IResult, ListPagedCatalogI
     {
         var response = new ListPagedCatalogItemResponse(request.CorrelationId());
 
-        var filterSpec = new CatalogFilterSpecification(request.CatalogBrandId, request.CatalogTypeId);
-        int totalItems = await itemRepository.CountAsync(filterSpec);
-
+        // Fetch one extra item to detect whether a next page exists, avoiding a separate COUNT query.
         var pagedSpec = new CatalogFilterPaginatedSpecification(
             skip: request.PageIndex * request.PageSize,
-            take: request.PageSize,
+            take: request.PageSize > 0 ? request.PageSize + 1 : 0,
             brandId: request.CatalogBrandId,
             typeId: request.CatalogTypeId);
 
         var items = await itemRepository.ListAsync(pagedSpec);
 
-        response.CatalogItems.AddRange(items.Select(_mapper.Map<CatalogItemDto>));
+        bool hasNextPage = request.PageSize > 0 && items.Count > request.PageSize;
+        var pageItems = hasNextPage ? items.Take(request.PageSize) : items;
+
+        response.CatalogItems.AddRange(pageItems.Select(_mapper.Map<CatalogItemDto>));
         foreach (CatalogItemDto item in response.CatalogItems)
         {
             item.PictureUri = _uriComposer.ComposePicUri(item.PictureUri);
@@ -60,11 +60,11 @@ public class CatalogItemListPagedEndpoint : IEndpoint<IResult, ListPagedCatalogI
 
         if (request.PageSize > 0)
         {
-            response.PageCount = int.Parse(Math.Ceiling((decimal)totalItems / request.PageSize).ToString());
+            response.PageCount = hasNextPage ? request.PageIndex + 2 : request.PageIndex + 1;
         }
         else
         {
-            response.PageCount = totalItems > 0 ? 1 : 0;
+            response.PageCount = items.Count > 0 ? 1 : 0;
         }
 
         return Results.Ok(response);
