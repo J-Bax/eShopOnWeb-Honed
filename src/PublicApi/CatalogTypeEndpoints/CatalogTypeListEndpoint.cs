@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.eShopWeb.ApplicationCore.Entities;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 using MinimalApi.Endpoint;
 
 namespace Microsoft.eShopWeb.PublicApi.CatalogTypeEndpoints;
@@ -16,10 +18,15 @@ namespace Microsoft.eShopWeb.PublicApi.CatalogTypeEndpoints;
 public class CatalogTypeListEndpoint : IEndpoint<IResult, IRepository<CatalogType>>
 {
     private readonly IMapper _mapper;
+    private readonly IMemoryCache _cache;
 
-    public CatalogTypeListEndpoint(IMapper mapper)
+    private const string CacheKey = "catalog-types";
+    private static readonly System.TimeSpan CacheTtl = System.TimeSpan.FromSeconds(30);
+
+    public CatalogTypeListEndpoint(IMapper mapper, IMemoryCache cache)
     {
         _mapper = mapper;
+        _cache = cache;
     }
 
     public void AddRoute(IEndpointRouteBuilder app)
@@ -37,9 +44,14 @@ public class CatalogTypeListEndpoint : IEndpoint<IResult, IRepository<CatalogTyp
     {
         var response = new ListCatalogTypesResponse();
 
-        var items = await catalogTypeRepository.ListAsync();
+        if (!_cache.TryGetValue(CacheKey, out List<CatalogTypeDto>? cachedTypes) || cachedTypes == null)
+        {
+            var items = await catalogTypeRepository.ListAsync();
+            cachedTypes = items.Select(_mapper.Map<CatalogTypeDto>).ToList();
+            _cache.Set(CacheKey, cachedTypes, CacheTtl);
+        }
 
-        response.CatalogTypes.AddRange(items.Select(_mapper.Map<CatalogTypeDto>));
+        response.CatalogTypes.AddRange(cachedTypes);
 
         return Results.Ok(response);
     }
