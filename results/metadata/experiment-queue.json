@@ -9,9 +9,9 @@
       "explanation": "Eliminate redundant second DB round-trip in catalog item creation",
       "scope": "narrow",
       "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-1.md",
-      "status": "in_progress",
-      "triedByExperiment": null,
-      "outcome": null
+      "status": "done",
+      "triedByExperiment": 1,
+      "outcome": "improved"
     },
     {
       "id": "2",
@@ -20,7 +20,7 @@
       "explanation": "Cache static catalog brands to eliminate repeated DB queries",
       "scope": "narrow",
       "rootCausePath": "C:\\Projects\\Hone-Group\\OptimizationTargets\\eShopOnWeb-Honed\\results\\metadata\\root-causes\\rca-2.md",
-      "status": "pending",
+      "status": "in_progress",
       "triedByExperiment": null,
       "outcome": null
     },

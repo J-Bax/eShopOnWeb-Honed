@@ -5,6 +5,6 @@
 
 **Generated:** experiment 1 at 2026-04-20T07:53:19.0134909+00:00
 
-- [ ] **#1**`src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` — Eliminate redundant second DB round-trip in catalog item creation *(in progress)*
-- [ ] **#2**`src/PublicApi/CatalogBrandEndpoints/CatalogBrandListEndpoint.cs` — Cache static catalog brands to eliminate repeated DB queries
+- [x] **#1**`src/PublicApi/CatalogItemEndpoints/CreateCatalogItemEndpoint.cs` — Eliminate redundant second DB round-trip in catalog item creation *(experiment 1 — improved)*
+- [ ] **#2**`src/PublicApi/CatalogBrandEndpoints/CatalogBrandListEndpoint.cs` — Cache static catalog brands to eliminate repeated DB queries *(in progress)*
 - [ ] **#3**`src/PublicApi/CatalogItemEndpoints/CatalogItemListPagedEndpoint.cs` — Eliminate redundant count query in paginated catalog listing

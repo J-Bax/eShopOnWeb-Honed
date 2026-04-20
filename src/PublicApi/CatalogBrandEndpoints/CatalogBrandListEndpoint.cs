@@ -1,4 +1,6 @@
-﻿using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -6,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.eShopWeb.ApplicationCore.Entities;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 using MinimalApi.Endpoint;
 
 namespace Microsoft.eShopWeb.PublicApi.CatalogBrandEndpoints;
@@ -15,11 +18,16 @@ namespace Microsoft.eShopWeb.PublicApi.CatalogBrandEndpoints;
 /// </summary>
 public class CatalogBrandListEndpoint : IEndpoint<IResult, IRepository<CatalogBrand>>
 {
-    private readonly IMapper _mapper;
+    private const string CacheKey = "catalog-brands";
+    private static readonly TimeSpan CacheTtl = TimeSpan.FromSeconds(30);
 
-    public CatalogBrandListEndpoint(IMapper mapper)
+    private readonly IMapper _mapper;
+    private readonly IMemoryCache _cache;
+
+    public CatalogBrandListEndpoint(IMapper mapper, IMemoryCache cache)
     {
         _mapper = mapper;
+        _cache = cache;
     }
 
     public void AddRoute(IEndpointRouteBuilder app)
@@ -37,9 +45,14 @@ public class CatalogBrandListEndpoint : IEndpoint<IResult, IRepository<CatalogBr
     {
         var response = new ListCatalogBrandsResponse();
 
-        var items = await catalogBrandRepository.ListAsync();
+        if (!_cache.TryGetValue(CacheKey, out List<CatalogBrandDto>? cachedBrands) || cachedBrands == null)
+        {
+            var items = await catalogBrandRepository.ListAsync();
+            cachedBrands = items.Select(_mapper.Map<CatalogBrandDto>).ToList();
+            _cache.Set(CacheKey, cachedBrands, CacheTtl);
+        }
 
-        response.CatalogBrands.AddRange(items.Select(_mapper.Map<CatalogBrandDto>));
+        response.CatalogBrands.AddRange(cachedBrands);
 
         return Results.Ok(response);
     }

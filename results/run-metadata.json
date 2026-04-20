@@ -1,6 +1,6 @@
 {
   "targetName": "eShopOnWeb",
-  "startedAt": "2026-04-20T07:51:43.4300769\u002B00:00",
+  "startedAt": "2026-04-20T07:51:47.0523258\u002B00:00",
   "machineInfo": {
     "cpuName": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
     "cpuCores": 16,
@@ -8,5 +8,20 @@
     "osVersion": "Microsoft Windows 10.0.19045",
     "dotnetVersion": ".NET 10.0.6"
   },
-  "experiments": []
+  "experiments": [
+    {
+      "experiment": 1,
+      "startedAt": "2026-04-20T07:51:47.0523258\u002B00:00",
+      "completedAt": "2026-04-20T08:02:29.0277130\u002B00:00",
+      "outcome": "Improved",
+      "branchName": "hone/experiment-1",
+      "baseBranch": "main",
+      "p95": 58.689895,
+      "rps": 27.271048571034918,
+      "prNumber": 22,
+      "prUrl": "https://github.com/J-Bax/eShopOnWeb-Honed/pull/22",
+      "staleCount": 0,
+      "consecutiveFailures": 0
+    }
+  ]
 }
