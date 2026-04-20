@@ -1,0 +1,34 @@
+{
+  "experiment": 2,
+  "totalAttempts": 2,
+  "finalOutcome": "success",
+  "attempts": [
+    {
+      "attempt": 1,
+      "stage": "build",
+      "outcome": "failed",
+      "durationSec": 31.65,
+      "diffLines": 0,
+      "error": "Build failed (exit code 1)",
+      "artifacts": {
+        "fixPrompt": null,
+        "fixResponse": null,
+        "buildLog": "results/experiment-2/iterations/attempt-1/build.log"
+      }
+    },
+    {
+      "attempt": 2,
+      "stage": "test",
+      "outcome": "passed",
+      "durationSec": 46.66,
+      "diffLines": 0,
+      "artifacts": {
+        "fixPrompt": null,
+        "fixResponse": null,
+        "buildLog": "results/experiment-2/iterations/attempt-2/build.log",
+        "e2eLog": "results/experiment-2/iterations/attempt-2/e2e-tests.log",
+        "e2eResults": "results/experiment-2/iterations/attempt-2/e2e-results.trx"
+      }
+    }
+  ]
+}
