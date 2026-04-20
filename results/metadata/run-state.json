@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "stableBranch": "main",
+  "stableHeadSha": "552296fcfc6a13dc99c593f3acbe51067b4fcacb",
+  "status": "finalizing",
+  "currentExperiment": {
+    "number": 1,
+    "queueItemId": "1",
+    "branchName": "hone/experiment-1",
+    "baseBranch": "main",
+    "candidateHeadSha": "34f38815c0a961f60d8a64856206a06d997dd596",
+    "cleanupManifestPath": "results\\metadata\\cleanup\\experiment-1.json",
+    "phase": "finalizing",
+    "pendingOutcome": "improved",
+    "startedAt": "2026-04-20T07:51:47.0523258\u002B00:00"
+  }
+}
