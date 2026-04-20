@@ -50,6 +50,20 @@
       "prUrl": "https://github.com/J-Bax/eShopOnWeb-Honed/pull/24",
       "staleCount": 0,
       "consecutiveFailures": 1
+    },
+    {
+      "experiment": 4,
+      "startedAt": "2026-04-20T08:23:02.3180909\u002B00:00",
+      "completedAt": "2026-04-20T08:33:37.0399734\u002B00:00",
+      "outcome": "Improved",
+      "branchName": "hone/experiment-4",
+      "baseBranch": "hone/experiment-2",
+      "p95": 58.684575,
+      "rps": 27.40155213391588,
+      "prNumber": 25,
+      "prUrl": "https://github.com/J-Bax/eShopOnWeb-Honed/pull/25",
+      "staleCount": 0,
+      "consecutiveFailures": 0
     }
   ]
 }
